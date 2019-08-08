@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.project.dao.FallRecordDAO;
 import com.project.dao.UserDAO;
 import com.project.model.User;
 
@@ -26,6 +27,7 @@ import com.project.model.User;
 public class AccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDAO userDAO;
+	private FallRecordDAO fallRecordDAO;
 	final Base64.Encoder encoder = Base64.getEncoder();
 	private static final String CREATE_MEMBER_TABLE = "create table members (\n" + 
 			"    member_id int not null AUTO_INCREMENT,\n" + 
@@ -81,6 +83,8 @@ public class AccountServlet extends HttpServlet {
 			"    fall_condition varchar(255) not null,\n" + 
 			"	PRIMARY KEY (record_id)\n" + 
 			");";
+	private static final String INSERT_FALLRECORD_SQL = "INSERT INTO fallRecords" + "  (fall_condition) VALUES "
+			+ " (\"safe\");";
 	
        
     /**
@@ -93,6 +97,7 @@ public class AccountServlet extends HttpServlet {
     
     public void init() {
     	userDAO = new UserDAO();
+    	fallRecordDAO = new FallRecordDAO();
     }
 
 	/**
@@ -144,7 +149,7 @@ public class AccountServlet extends HttpServlet {
 	private Connection newDBConnection (String dbname, ServletContext ctx) {
 		String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 		String DB_URL = "jdbc:mysql://localhost:3306/test_" + dbname + "?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=CST&characterEncoding=utf8";
-		String USER = "user";
+		String USER = "root";
 		String PASSWORD = "lomo81818";
 		
 		Connection con = null;
@@ -176,6 +181,9 @@ public class AccountServlet extends HttpServlet {
 //			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 			preparedStatement = con.prepareStatement(CREATE_FALLRECORD_TABLE);
+//			System.out.println(preparedStatement);
+			preparedStatement.executeUpdate();
+			preparedStatement = con.prepareStatement(INSERT_FALLRECORD_SQL);
 //			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 			preparedStatement.close();

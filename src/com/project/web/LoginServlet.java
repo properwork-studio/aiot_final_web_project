@@ -91,7 +91,7 @@ public class LoginServlet extends HttpServlet {
 				HttpSession session = request.getSession();
 				session.setAttribute("currentUser", user.getUserID());
 				newDBConnection(dbname, ctx);
-				response.sendRedirect("dashboard.jsp");
+				response.sendRedirect("dashboard");
 			} else {
 				System.out.println("login error");
 				response.sendRedirect("login?login_error=true");
@@ -114,7 +114,7 @@ public class LoginServlet extends HttpServlet {
     		Class.forName(JDBC_DRIVER);
     		Connection con = DriverManager.getConnection(DB_URL, USER, PASSWORD);
     		ctx.setAttribute("current_db", con);
-    		con.close();
+//    		con.close();
     	} catch(Exception e) {
     		e.printStackTrace();
     	}

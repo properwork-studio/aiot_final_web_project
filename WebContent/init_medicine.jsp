@@ -113,7 +113,8 @@
             </div>
           </div>
           <div class="align-self-end mt-3">
-            <input type="submit" onclick="addNext()" value="新增其他用藥設定" class="submitBtn submitBtn--sub align-self-end mr-2">
+          	<!-- <input type="submit" onclick="addNext()" value="新增其他用藥設定" class="submitBtn submitBtn--sub align-self-end mr-2"> -->
+            <input type="submit" onclick="addNext()" value="新增其他用藥設定" class="submitBtn align-self-end mr-2">
             <input type="submit" onclick="stepNext()" value="完成設定" class="submitBtn align-self-end">
           </div>
         </form>

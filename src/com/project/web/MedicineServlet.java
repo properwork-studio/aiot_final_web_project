@@ -59,7 +59,7 @@ public class MedicineServlet extends HttpServlet {
 				// 繼續回到init_medicine.jsp
 				break;
 			case "/init_medicine":
-				addNewMedicine(request, response, con);
+//				addNewMedicine(request, response, con);
 				response.sendRedirect("dashboard");
 				// init 到dashboard
 				break;

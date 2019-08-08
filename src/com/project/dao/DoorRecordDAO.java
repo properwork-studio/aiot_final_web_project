@@ -11,7 +11,7 @@ import com.project.model.DoorRecord;
 
 public class DoorRecordDAO {
 
-	private static final String INSERT_RECORD_SQL = "INSERT INTO doorRecords" + "  (member_name, door_condition) VALUES "
+	private static final String INSERT_RECORD_SQL = "INSERT INTO doorRecords" + "  (member_name, door_condition, real_fake) VALUES "
 			+ " (?, ?);";
 
 	private static final String SELECT_RECORD_BY_ID = "SELECT * FROM doorRecords WHERE record_id =?";
@@ -28,11 +28,13 @@ public class DoorRecordDAO {
 		System.out.println(INSERT_RECORD_SQL);
 		System.out.println(record.getMemberName());
 		System.out.println(record.getCondition());
+		System.out.println(record.getRealFake());
 		// try-with-resource statement will auto close the connection.
 		try (
 			PreparedStatement preparedStatement = con.prepareStatement(INSERT_RECORD_SQL)) {
 			preparedStatement.setString(1, record.getMemberName());
 			preparedStatement.setString(2, record.getCondition());
+			preparedStatement.setString(3, record.getRealFake());
 			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -54,7 +56,8 @@ public class DoorRecordDAO {
 				String memberName = rs.getString("member_name");
 				String timeStamp = rs.getString("time_stamp");
 				String doorCondition = rs.getString("door_condition");
-				record = new DoorRecord(id, memberName, timeStamp, doorCondition);
+				String realFake = rs.getString("real_fake");
+				record = new DoorRecord(id, memberName, timeStamp, doorCondition, realFake);
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -79,7 +82,8 @@ public class DoorRecordDAO {
 				String memberName = rs.getString("member_name");
 				String timeStamp = rs.getString("time_stamp");
 				String doorCondition = rs.getString("door_condition");
-				records.add(new DoorRecord(id, memberName, timeStamp, doorCondition));
+				String realFake = rs.getString("real_fake");
+				records.add(new DoorRecord(id, memberName, timeStamp, doorCondition, realFake));
 			}
 		} catch (SQLException e) {
 			printSQLException(e);

@@ -19,7 +19,7 @@ public class DBConnection implements ServletContextListener {
 	
 	String url = "jdbc:mysql://localhost:3306/test_users?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=CST";
     String driver = "com.mysql.jdbc.Driver";
-    String userName = "user";
+    String userName = "root";
     String password = "lomo81818";
 
     /**

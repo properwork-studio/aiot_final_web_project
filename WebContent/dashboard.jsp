@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="com.project.model.*" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -105,71 +106,6 @@
 	                  </div>
 	                </li>
               	</c:forEach>
-                <li class="record__list-item row mx-0">
-                  <div class="col-sm-2 px-0">
-                    <h6 class="custom-heading">Grandma</h6>
-                  </div>
-                  <div class="col-sm-4">
-                    <p class="custom-heading mb-0">2019.07.30 08:31</p>
-                  </div>
-                  <div class="col-sm-6 d-flex justify-content-between px-0">
-                    <p class="custom-heading mb-0">B-complex, 維骨力, 降血壓</p>
-                    <span class="record__list-icon record__list-icon--green"><i class="fa fa-check"
-                        aria-hidden="true"></i></span>
-                  </div>
-                </li>
-                <li class="record__list-item row mx-0">
-                  <div class="col-sm-2 px-0">
-                    <h6 class="custom-heading">Grandma</h6>
-                  </div>
-                  <div class="col-sm-4">
-                    <p class="custom-heading mb-0">2019.07.30 08:31</p>
-                  </div>
-                  <div class="col-sm-6 d-flex justify-content-between px-0">
-                    <p class="custom-heading mb-0">B-complex, 維骨力, 降血壓</p>
-                    <span class="record__list-icon record__list-icon--green"><i class="fa fa-check"
-                        aria-hidden="true"></i></span>
-                  </div>
-                </li>
-                <li class="record__list-item row mx-0">
-                  <div class="col-sm-2 px-0">
-                    <h6 class="custom-heading">Grandma</h6>
-                  </div>
-                  <div class="col-sm-4">
-                    <p class="custom-heading mb-0">2019.07.30 08:31</p>
-                  </div>
-                  <div class="col-sm-6 d-flex justify-content-between px-0">
-                    <p class="custom-heading mb-0">B-complex, 維骨力, 降血壓</p>
-                    <span class="record__list-icon record__list-icon--red"><i class="fa fa-check"
-                        aria-hidden="true"></i></span>
-                  </div>
-                </li>
-                <li class="record__list-item row mx-0">
-                  <div class="col-sm-2 px-0">
-                    <h6 class="custom-heading">Grandma</h6>
-                  </div>
-                  <div class="col-sm-4">
-                    <p class="custom-heading mb-0">2019.07.30 08:31</p>
-                  </div>
-                  <div class="col-sm-6 d-flex justify-content-between px-0">
-                    <p class="custom-heading mb-0">B-complex, 維骨力, 降血壓</p>
-                    <span class="record__list-icon record__list-icon--green"><i class="fa fa-check"
-                        aria-hidden="true"></i></span>
-                  </div>
-                </li>
-                <li class="record__list-item row mx-0">
-                  <div class="col-sm-2 px-0">
-                    <h6 class="custom-heading">Grandma</h6>
-                  </div>
-                  <div class="col-sm-4">
-                    <p class="custom-heading mb-0">2019.07.30 08:31</p>
-                  </div>
-                  <div class="col-sm-6 d-flex justify-content-between px-0">
-                    <p class="custom-heading mb-0">B-complex, 維骨力, 降血壓</p>
-                    <span class="record__list-icon record__list-icon--green"><i class="fa fa-check"
-                        aria-hidden="true"></i></span>
-                  </div>
-                </li>
                 <a href="#" id="medicineRecordBtn" class="detailBtn align-self-end mt-3">顯示完整紀錄</a>
               </ul>
               <a href="#" class="submitBtn editBtn" id="editMedicineBtn">用藥設定</a>
@@ -183,9 +119,18 @@
                 <h5 class="custom-heading text-center">跌倒偵測</h5>
                 <h5 class="custom-heading text-center mb-0">Fall<br>Detection</h5>
               </div>
+              <% FallRecord fallRecord = (FallRecord)request.getAttribute("latestRecord"); %>
               <div class="col-sm-8 border-left py-1">
-                <h1 class="text-center custom-heading--green mb-0">SAFE</h1>
-                <p class="text-mute mb-0 text-center custom-heading">Members are all safe</p>
+              	<% if(fallRecord.getCondition().equals("safe")) { %>
+                	<h1 class="text-center custom-heading--green mb-0">${fallRecord.getCondition()}</h1>
+                	<p class="text-mute mb-0 text-center custom-heading">Members are all safe</p>
+               	<% } else if(fallRecord.getCondition().equals("fall")) { %>
+               		<h1 class="text-center custom-heading--red mb-0">${fallRecord.getCondition()}</h1>
+               		<p class="text-mute mb-0 text-center custom-heading">Someone fall!!</p>
+               	<% } else { %>
+               		<h1 class="text-center custom-heading--red mb-0">${fallRecord.getCondition()}</h1>
+               		<p class="text-mute mb-0 text-center custom-heading">Member in danger!!</p>
+               	<% } %>
               </div>
             </div>
           </div>
@@ -196,39 +141,26 @@
             </div>
             <div class="card-body py-0 mb-5">
               <ul class="record__list px-0 d-flex flex-column">
-                <li class="record__list-item row mx-0">
-                  <div class="col-sm-3 px-0">
-                    <h6 class="custom-heading">Grandma</h6>
-                  </div>
-                  <div class="col-sm-7">
-                    <p class="custom-heading mb-0">2019.07.30 08:31</p>
-                  </div>
-                  <div class="col-sm-2 text-right px-0">
-                    <p class="custom-heading mb-0 pr-2">出門</p>
-                  </div>
-                </li>
-                <li class="record__list-item row mx-0">
-                  <div class="col-sm-3 px-0">
-                    <h6 class="custom-heading">Grandma</h6>
-                  </div>
-                  <div class="col-sm-7">
-                    <p class="custom-heading mb-0">2019.07.30 08:31</p>
-                  </div>
-                  <div class="col-sm-2 text-right px-0">
-                    <p class="custom-heading mb-0 pr-2">出門</p>
-                  </div>
-                </li>
-                <li class="record__list-item row mx-0">
-                  <div class="col-sm-3 px-0">
-                    <h6 class="custom-heading">Grandma</h6>
-                  </div>
-                  <div class="col-sm-7">
-                    <p class="custom-heading mb-0">2019.07.30 08:31</p>
-                  </div>
-                  <div class="col-sm-2 text-right px-0">
-                    <p class="custom-heading mb-0 pr-2">出門</p>
-                  </div>
-                </li>
+              	<c:forEach var="doorRecord" items="${listDoorRecords}">
+              		<li class="record__list-item row mx-0">
+	                  <div class="col-sm-3 px-0">
+	                    <h6 class="custom-heading">${doorRecord.memberName}</h6>
+	                  </div>
+	                  <div class="col-sm-7">
+	                    <p class="custom-heading mb-0">${doorRecord.timeStamp}</p>
+	                  </div>
+	                  <div class="col-sm-2 text-right px-0">
+	                  	<c:choose>
+	                  		<c:when test="${doorRecord.realFake == null }">
+	                  			<p class="custom-heading mb-0 pr-2">${doorRecord.condition}</p>
+	                  		</c:when>
+	                  		<c:otherwise>
+	                  			<p class="custom-heading mb-0 pr-2">異常</p>
+	                  		</c:otherwise>
+	                  	</c:choose>
+	                  </div>
+	                </li>
+              	</c:forEach>
                 <a href="#" id="doorRecordBtn" class="detailBtn align-self-end mt-3">顯示完整紀錄</a>
               </ul>
             </div>

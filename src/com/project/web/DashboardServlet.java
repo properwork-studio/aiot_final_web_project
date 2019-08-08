@@ -59,9 +59,9 @@ public class DashboardServlet extends HttpServlet {
 		grabContact(request, response, con);
 		grabMedicine(request, response, con);
 		grabMedicineRecords(request, response, con);
-		grabFallRecords(request, response, con);
+		grabFallRecord(request, response, con);
 		grabDoorRecords(request, response, con);
-		response.sendRedirect("dashboard.jsp");
+		request.getRequestDispatcher("dashboard.jsp").forward(request, response);
 	}
 
 	/**
@@ -92,9 +92,12 @@ public class DashboardServlet extends HttpServlet {
 		request.setAttribute("listMedicineRecords", listMedicineRecords);
 	}
 	
-	protected void grabFallRecords(HttpServletRequest request, HttpServletResponse response, Connection con) {
+	protected void grabFallRecord(HttpServletRequest request, HttpServletResponse response, Connection con) {
 		List<FallRecord> listFallRecords = fallRecordDAO.selectAllRecords(con);
-		request.setAttribute("listFallRecords", listFallRecords);
+		int last = listFallRecords.size() - 1;
+		System.out.println(listFallRecords.size());
+		FallRecord latestRecord = listFallRecords.get(last);
+		request.setAttribute("latestRecord", latestRecord);
 	}
 	
 	protected void grabDoorRecords(HttpServletRequest request, HttpServletResponse response, Connection con) {
