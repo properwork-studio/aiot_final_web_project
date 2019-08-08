@@ -4,4 +4,4 @@ create table test_DoorRecords (
     time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP,
     door_condition varchar(255) not null,
 	PRIMARY KEY (record_id)
-);
+) DEFAULT CHARSET=utf8;

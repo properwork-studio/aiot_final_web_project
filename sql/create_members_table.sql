@@ -6,4 +6,4 @@ create table test_members (
     id_number varchar(255) not null,
     member_photo varchar(255) not null,
 	PRIMARY KEY (member_id)
-);
+) DEFAULT CHARSET=utf8;

@@ -5,4 +5,4 @@ create table Users (
     username varchar(255) not null,
     phone_number varchar(255) not null,
 	PRIMARY KEY (user_id)
-);
+) DEFAULT CHARSET=utf8;

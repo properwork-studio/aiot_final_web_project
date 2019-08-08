@@ -5,4 +5,4 @@ create table test_contact (
     email varchar(255) not null,
     phone_number varchar(255) not null,
 	PRIMARY KEY (contact_id)
-);
+) DEFAULT CHARSET=utf8;

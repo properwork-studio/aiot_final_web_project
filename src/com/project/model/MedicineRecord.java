@@ -5,21 +5,24 @@ public class MedicineRecord {
 	private int recordId;
 	private String memberName;
 	private String timeStamp;
-	private String medicineCondition;
+	private String medicine;
+	private String memberCondition;
 	
-	public MedicineRecord(String memberName, String medicineCondition) {
+	public MedicineRecord(String memberName, String medicine, String memberCondition) {
 		super();
 		this.memberName = memberName;
 //		this.timeStamp = timeStamp;
-		this.medicineCondition = medicineCondition;
+		this.medicine = medicine;
+		this.memberCondition = memberCondition;
 	}
 	
-	public MedicineRecord(int recordId, String memberName, String timeStamp, String medicineCondition) {
+	public MedicineRecord(int recordId, String memberName, String timeStamp, String medicine, String memberCondition) {
 		super();
 		this.recordId = recordId;
 		this.memberName = memberName;
 		this.timeStamp = timeStamp;
-		this.medicineCondition = medicineCondition;
+		this.medicine = medicine;
+		this.memberCondition = memberCondition;
 	}
 
 	public int getRecordId() {
@@ -46,11 +49,21 @@ public class MedicineRecord {
 		this.timeStamp = timeStamp;
 	}
 
-	public String getMedicineCondition() {
-		return medicineCondition;
+	public String getMedicine() {
+		return medicine;
 	}
 
-	public void setMedicineCondition(String medicineCondition) {
-		this.medicineCondition = medicineCondition;
+	public void setMedicine(String medicine) {
+		this.medicine = medicine;
 	}
+
+	public String getMemberCondition() {
+		return memberCondition;
+	}
+
+	public void setMemberCondition(String memberCondition) {
+		this.memberCondition = memberCondition;
+	}
+	
+	
 }

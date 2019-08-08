@@ -11,8 +11,8 @@ import com.project.model.MedicineRecord;
 
 public class MedicineRecordDAO {
 
-	private static final String INSERT_RECORD_SQL = "INSERT INTO medicineRecords" + "  (member_name, medicine_condition) VALUES "
-			+ " (?, ?);";
+	private static final String INSERT_RECORD_SQL = "INSERT INTO medicineRecords" + "  (member_name, medicine, member_condition) VALUES "
+			+ " (?, ?, ?);";
 
 	private static final String SELECT_RECORD_BY_ID = "SELECT * FROM medicineRecords WHERE record_id =?";
 //	private static final String SELECT_USER_BY_USERNAME = "SELECT * FROM Users WHERE username =?";
@@ -27,12 +27,14 @@ public class MedicineRecordDAO {
 	public void insertRecord(Connection con, MedicineRecord record) throws SQLException {
 		System.out.println(INSERT_RECORD_SQL);
 		System.out.println(record.getMemberName());
-		System.out.println(record.getMedicineCondition());
+		System.out.println(record.getMedicine());
+		System.out.println(record.getMemberCondition());
 		// try-with-resource statement will auto close the connection.
 		try (
 			PreparedStatement preparedStatement = con.prepareStatement(INSERT_RECORD_SQL)) {
 			preparedStatement.setString(1, record.getMemberName());
-			preparedStatement.setString(2, record.getMedicineCondition());
+			preparedStatement.setString(2, record.getMedicine());
+			preparedStatement.setString(3, record.getMemberCondition());
 			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -53,8 +55,9 @@ public class MedicineRecordDAO {
 			while (rs.next()) {
 				String memberName = rs.getString("member_name");
 				String timeStamp = rs.getString("time_stamp");
-				String medicineCondition = rs.getString("medicine_condition");
-				record = new MedicineRecord(id, memberName, timeStamp, medicineCondition);
+				String medicine = rs.getString("medicine");
+				String memberCondition = rs.getString("member_condition");
+				record = new MedicineRecord(id, memberName, timeStamp, medicine, memberCondition);
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -78,8 +81,9 @@ public class MedicineRecordDAO {
 				int id = rs.getInt("record_id");
 				String memberName = rs.getString("member_name");
 				String timeStamp = rs.getString("time_stamp");
-				String medicineCondition = rs.getString("medicine_condition");
-				records.add(new MedicineRecord(id, memberName, timeStamp, medicineCondition));
+				String medicine = rs.getString("medicine");
+				String memberCondition = rs.getString("member_condition");
+				records.add(new MedicineRecord(id, memberName, timeStamp, medicine, memberCondition));
 			}
 		} catch (SQLException e) {
 			printSQLException(e);

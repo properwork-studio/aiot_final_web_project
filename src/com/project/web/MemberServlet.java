@@ -125,7 +125,8 @@ public class MemberServlet extends HttpServlet {
 							//String fileName = fis.getName().substring(fis.getName().lastIndexOf("/"));//獲得上傳檔案的檔名
 							fileName = fis.getName();//獲得上傳檔案的檔名
 //							System.out.println("request.getRealPath()=="+request.getRealPath("/")); 
-							String uploadPath = request.getRealPath("/")+"dataimages/";//選定上傳的目錄此處為當前目錄 
+//							String uploadPath = request.getRealPath("/")+"dataimages/";//選定上傳的目錄此處為當前目錄 
+							String uploadPath = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()+"/dataimages/";
 							if(!new File(uploadPath).isDirectory())//選定上傳的目錄此處為當前目錄,沒有則建立 
 								new File(uploadPath).mkdirs(); 
 							System.out.println("uploadPath="+uploadPath); 

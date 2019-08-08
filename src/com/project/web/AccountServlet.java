@@ -144,7 +144,7 @@ public class AccountServlet extends HttpServlet {
 	private Connection newDBConnection (String dbname, ServletContext ctx) {
 		String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 		String DB_URL = "jdbc:mysql://localhost:3306/test_" + dbname + "?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=CST&characterEncoding=utf8";
-		String USER = "root";
+		String USER = "user";
 		String PASSWORD = "lomo81818";
 		
 		Connection con = null;
@@ -197,7 +197,7 @@ public class AccountServlet extends HttpServlet {
 		// Passing current user down
 		String dbname = email.substring(0, email.indexOf("@"));
 		HttpSession session = request.getSession();
-		session.setAttribute("currentUser", newUser.getUserID());
+		session.setAttribute("currentUser", newUser.getName());
 		session.setAttribute("current_dbname", dbname);
 	}
 

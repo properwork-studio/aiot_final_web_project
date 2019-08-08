@@ -13,4 +13,4 @@ create table test_medicines (
     medicine_4 varchar(255),
     medicine_5 varchar(255),
 	PRIMARY KEY (rule_id)
-);
+) DEFAULT CHARSET=utf8;

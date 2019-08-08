@@ -24,7 +24,8 @@
           <h3 class="h6 custom-heading text-white">遠端關心長輩的好幫手</h3>
         </div>
         <div class="d-flex align-items-center logout__bar">
-          <p class="mb-0 mr-3">Welcome back, <b>David</b></p>
+          <% ServletContext ctx = this.getServletContext(); %>
+          <p class="mb-0 mr-3">Welcome back, <b><% ctx.getAttribute("currentUser"); %></b></p>
           <a href="toLogout" class="submitBtn logoutBtn">Logout</a>
         </div>
       </div>
@@ -39,23 +40,26 @@
                 <h5 class="custom-heading text-center">家庭成員<br>基本資料</h5>
                 <h5 class="custom-heading text-center">Members</h5>
               </div>
-              <div class="col-sm-4 border-left border-right d-flex flex-column align-self-stretch">
-                <div class="member__image mb-3">
-                  <img src="http://localhost:8000${getContextPath}">
-                  <!--  <img src="https://fakeimg.pl/100/">  -->
-                </div>
-                <h6 class="text-center custom-heading mb-1">Grandpa</h6>
-                <h6 class="text-center custom-heading mb-1">1947.03.25</h6>
-                <h6 class="text-center custom-heading mb-1">A12345678</h6>
-              </div>
-              <div class="col-sm-4 d-flex flex-column">
+              <c:forEach var="member" items="${listMembers}">
+              	 <div class="col-sm-4 border-left border-right d-flex flex-column align-self-stretch">
+	                <div class="member__image mb-3">
+	                  <!-- "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()+"/dataimages/" -->
+	                  <img src="http://${request.getServerName}:${request.getServerPort()}/${request.getContextPath()}/dataimages/${member.photoPath}">
+	                  <!--  <img src="https://fakeimg.pl/100/">  -->
+	                </div>
+	                <h6 class="text-center custom-heading mb-1">${member.memberName}</h6>
+	                <h6 class="text-center custom-heading mb-1">${member.birthday}</h6>
+	                <h6 class="text-center custom-heading mb-1">${member.idNumber}</h6>
+	              </div>
+              </c:forEach>
+         <!-- <div class="col-sm-4 d-flex flex-column">
                 <div class="member__image mb-3">
                   <img src="https://fakeimg.pl/100/">
                 </div>
                 <h6 class="text-center custom-heading mb-1">Grandma</h6>
                 <h6 class="text-center custom-heading mb-1">1947.03.25</h6>
                 <h6 class="text-center custom-heading mb-1">A12345678</h6>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -66,13 +70,15 @@
                 <h5 class="custom-heading text-center">緊急聯絡人</h5>
                 <h5 class="custom-heading text-center">Emergency<br>Contact</h5>
               </div>
-              <div class="col-sm-8 border-left">
-                <h4 class="text-center custom-heading mb-1">David Smith</h4>
-                <p class="text-center custom-text mb-1">Son</p>
-                <h6 class="text-center custom-heading mb-1">0911-222-333</h6>
-                <h6 class="text-center custom-heading mb-1">davidsmith@gmail.com</h6>
-              </div>
-              <a href="#" id="editContactBtn" class="submitBtn editBtn">編輯聯絡人</a>
+              <c:forEach var="contact" items="${listContact}">
+              	<div class="col-sm-8 border-left">
+	                <h4 class="text-center custom-heading mb-1">${contact.contactName}</h4>
+	                <p class="text-center custom-text mb-1">${contact.relationship}</p>
+	                <h6 class="text-center custom-heading mb-1">${contact.phoneNumber}</h6>
+	                <h6 class="text-center custom-heading mb-1">${contact.email}</h6>
+	              </div>
+	              <a href="#" id="editContactBtn" class="submitBtn editBtn">編輯聯絡人</a>
+              </c:forEach>
             </div>
           </div>
         </div>
@@ -84,6 +90,21 @@
             </div>
             <div class="card-body py-0 mb-5">
               <ul class="record__list px-0 d-flex flex-column">
+              	<c:forEach var="medicineRecord" items="${listMedicineRecords}">
+              		<li class="record__list-item row mx-0">
+	                  <div class="col-sm-2 px-0">
+	                    <h6 class="custom-heading">${medicineRecord.memberName}</h6>
+	                  </div>
+	                  <div class="col-sm-4">
+	                    <p class="custom-heading mb-0">${medicineRecord.timeStamp}</p>
+	                  </div>
+	                  <div class="col-sm-6 d-flex justify-content-between px-0">
+	                    <p class="custom-heading mb-0">${medicineRecord.medicine}</p>
+	                    <span class="record__list-icon record__list-icon--green"><i class="fa fa-check"
+	                        aria-hidden="true"></i></span>
+	                  </div>
+	                </li>
+              	</c:forEach>
                 <li class="record__list-item row mx-0">
                   <div class="col-sm-2 px-0">
                     <h6 class="custom-heading">Grandma</h6>

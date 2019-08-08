@@ -5,4 +5,4 @@ create table test_medicineRecords (
     medicine varchar(255) not null,
     member_condition varchar(255) not null,
 	PRIMARY KEY (record_id)
-);
+) DEFAULT CHARSET=utf8;

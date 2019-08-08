@@ -3,4 +3,4 @@ create table test_fallRecords (
     time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP,
     fall_condition varchar(255) not null,
 	PRIMARY KEY (record_id)
-);
+) DEFAULT CHARSET=utf8;
