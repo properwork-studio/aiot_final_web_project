@@ -17,6 +17,7 @@ public class ContactDAO {
 	private static final String SELECT_CONTACT_BY_ID = "SELECT * FROM contact WHERE contact_id =?";
 //	private static final String SELECT_USER_BY_USERNAME = "SELECT user_id,username,user_password,email,nickname,introduction,user_image FROM Users WHERE username =?";
 	private static final String SELECT_ALL_CONTACT = "SELECT * FROM contact";
+	private static final String SELECT_LAST_CONTACT = "SELECT * FROM contact ORDER BY contact_id DESC LIMIT 1";
 //	private static final String DELETE_USERS_SQL = "DELETE FROM Users WHERE user_id = ?;";
 	private static final String UPDATE_CONTACT_SQL = "UPDATE contact SET contact_name = ?, relationship = ?, email = ?, phone_number = ? WHERE contact_id = ?;";
 	
@@ -59,7 +60,7 @@ public class ContactDAO {
 				String relationship = rs.getString("relationship");
 				String email = rs.getString("email");
 				String phoneNumber = rs.getString("phone_number");
-				contact = new Contact(id, contactName, relationship, email, phoneNumber);
+				contact = new Contact(id, contactName, relationship, phoneNumber, email);
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
@@ -85,12 +86,38 @@ public class ContactDAO {
 				String relationship = rs.getString("relationship");
 				String email = rs.getString("email");
 				String phoneNumber = rs.getString("phone_number");
-				contacts.add(new Contact(id, contactName, relationship, email, phoneNumber));
+				contacts.add(new Contact(id, contactName, relationship, phoneNumber, email));
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
 		}
 		return contacts;
+	}
+	
+	public Contact selectLastContact(Connection con) {
+
+		// using try-with-resources to avoid closing resources (boiler plate code)
+		Contact contact = null;
+		try (
+			// Step :Create a statement using connection object
+			PreparedStatement preparedStatement = con.prepareStatement(SELECT_LAST_CONTACT);) {
+			System.out.println(preparedStatement);
+			// Step : Execute the query or update query
+			ResultSet rs = preparedStatement.executeQuery();
+
+			// Step : Process the ResultSet object.
+			while (rs.next()) {
+				int id = rs.getInt("contact_id");
+				String contactName = rs.getString("contact_name");
+				String relationship = rs.getString("relationship");
+				String email = rs.getString("email");
+				String phoneNumber = rs.getString("phone_number");
+				contact = new Contact(id, contactName, relationship, phoneNumber, email);
+			}
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
+		return contact;
 	}
 	
 	public boolean updateContact(Connection con, Contact contact) throws SQLException {

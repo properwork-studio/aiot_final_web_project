@@ -16,7 +16,7 @@ public class FallRecordDAO {
 
 	private static final String SELECT_RECORD_BY_ID = "SELECT * FROM fallRecords WHERE record_id =?";
 //	private static final String SELECT_USER_BY_USERNAME = "SELECT * FROM Users WHERE username =?";
-	private static final String SELECT_ALL_RECORDS = "SELECT * FROM fallRecords";
+	private static final String SELECT_ALL_RECORDS = "SELECT * FROM fallRecords ORDER BY record_id DESC";
 //	private static final String DELETE_USERS_SQL = "DELETE FROM Users WHERE user_id = ?;";
 //	private static final String UPDATE_USERS_SQL = "UPDATE Users SET nickname = ?,email= ?, introduction =?, user_image =? WHERE user_id = ?;";
 	

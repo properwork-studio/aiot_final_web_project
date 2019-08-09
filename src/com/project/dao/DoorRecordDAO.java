@@ -12,11 +12,12 @@ import com.project.model.DoorRecord;
 public class DoorRecordDAO {
 
 	private static final String INSERT_RECORD_SQL = "INSERT INTO doorRecords" + "  (member_name, door_condition, real_fake) VALUES "
-			+ " (?, ?);";
+			+ " (?, ?, ?);";
 
 	private static final String SELECT_RECORD_BY_ID = "SELECT * FROM doorRecords WHERE record_id =?";
 //	private static final String SELECT_USER_BY_USERNAME = "SELECT * FROM Users WHERE username =?";
-	private static final String SELECT_ALL_RECORDS = "SELECT * FROM doorRecords";
+	private static final String SELECT_ALL_RECORDS = "SELECT * FROM doorRecords ORDER BY record_id DESC LIMIT 150";
+	private static final String SELECT_THREE_RECORDS = "SELECT * FROM doorRecords ORDER BY record_id DESC LIMIT 3";
 //	private static final String DELETE_USERS_SQL = "DELETE FROM Users WHERE user_id = ?;";
 //	private static final String UPDATE_USERS_SQL = "UPDATE Users SET nickname = ?,email= ?, introduction =?, user_image =? WHERE user_id = ?;";
 	
@@ -72,6 +73,32 @@ public class DoorRecordDAO {
 		try (
 			// Step :Create a statement using connection object
 			PreparedStatement preparedStatement = con.prepareStatement(SELECT_ALL_RECORDS);) {
+			System.out.println(preparedStatement);
+			// Step : Execute the query or update query
+			ResultSet rs = preparedStatement.executeQuery();
+
+			// Step : Process the ResultSet object.
+			while (rs.next()) {
+				int id = rs.getInt("record_id");
+				String memberName = rs.getString("member_name");
+				String timeStamp = rs.getString("time_stamp");
+				String doorCondition = rs.getString("door_condition");
+				String realFake = rs.getString("real_fake");
+				records.add(new DoorRecord(id, memberName, timeStamp, doorCondition, realFake));
+			}
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
+		return records;
+	}
+	
+	public List<DoorRecord> selectThreeRecords(Connection con) {
+
+		// using try-with-resources to avoid closing resources (boiler plate code)
+		List<DoorRecord> records = new ArrayList<>();
+		try (
+			// Step :Create a statement using connection object
+			PreparedStatement preparedStatement = con.prepareStatement(SELECT_THREE_RECORDS);) {
 			System.out.println(preparedStatement);
 			// Step : Execute the query or update query
 			ResultSet rs = preparedStatement.executeQuery();

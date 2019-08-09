@@ -27,7 +27,6 @@ import com.project.model.User;
 public class AccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDAO userDAO;
-	private FallRecordDAO fallRecordDAO;
 	final Base64.Encoder encoder = Base64.getEncoder();
 	private static final String CREATE_MEMBER_TABLE = "create table members (\n" + 
 			"    member_id int not null AUTO_INCREMENT,\n" + 
@@ -75,12 +74,14 @@ public class AccountServlet extends HttpServlet {
 			"    member_name varchar(255) not null,\n" + 
 			"    time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP,\n" + 
 			"    door_condition varchar(255) not null,\n" + 
+			"    real_fake varchar(100),\n" + 
 			"	PRIMARY KEY (record_id)\n" + 
 			");";
 	private static final String CREATE_FALLRECORD_TABLE = "create table fallRecords (\n" + 
 			"    record_id int not null AUTO_INCREMENT,\n" + 
 			"    time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP,\n" + 
 			"    fall_condition varchar(255) not null,\n" + 
+			"    room varchar(100),\n" + 
 			"	PRIMARY KEY (record_id)\n" + 
 			");";
 	private static final String INSERT_FALLRECORD_SQL = "INSERT INTO fallRecords" + "  (fall_condition) VALUES "
@@ -97,7 +98,6 @@ public class AccountServlet extends HttpServlet {
     
     public void init() {
     	userDAO = new UserDAO();
-    	fallRecordDAO = new FallRecordDAO();
     }
 
 	/**

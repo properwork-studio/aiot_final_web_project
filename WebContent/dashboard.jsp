@@ -26,7 +26,7 @@
         </div>
         <div class="d-flex align-items-center logout__bar">
           <% ServletContext ctx = this.getServletContext(); %>
-          <p class="mb-0 mr-3">Welcome back, <b><% ctx.getAttribute("currentUser"); %></b></p>
+          <p class="mb-0 mr-3">Welcome back, <b><% out.print(ctx.getAttribute("currentUser")); %></b></p>
           <a href="toLogout" class="submitBtn logoutBtn">Logout</a>
         </div>
       </div>
@@ -42,56 +42,45 @@
                 <h5 class="custom-heading text-center">Members</h5>
               </div>
               <c:forEach var="member" items="${listMembers}">
-              	 <div class="col-sm-4 border-left border-right d-flex flex-column align-self-stretch">
+              	 <div class="col-sm-4 d-flex flex-column member__item">
 	                <div class="member__image mb-3">
 	                  <!-- "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()+"/dataimages/" -->
-	                  <img src="http://${request.getServerName}:${request.getServerPort()}/${request.getContextPath()}/dataimages/${member.photoPath}">
-	                  <!--  <img src="https://fakeimg.pl/100/">  -->
+	                  <img src="https://fakeimg.pl/100/">
 	                </div>
 	                <h6 class="text-center custom-heading mb-1">${member.memberName}</h6>
 	                <h6 class="text-center custom-heading mb-1">${member.birthday}</h6>
 	                <h6 class="text-center custom-heading mb-1">${member.idNumber}</h6>
 	              </div>
               </c:forEach>
-         <!-- <div class="col-sm-4 d-flex flex-column">
-                <div class="member__image mb-3">
-                  <img src="https://fakeimg.pl/100/">
-                </div>
-                <h6 class="text-center custom-heading mb-1">Grandma</h6>
-                <h6 class="text-center custom-heading mb-1">1947.03.25</h6>
-                <h6 class="text-center custom-heading mb-1">A12345678</h6>
-              </div> -->
             </div>
           </div>
         </div>
         <div class="col-md-5">
           <div class="card dashboard__card">
-            <div class="card-body py-4 d-flex row align-items-center">
+            <div class="card-body pt-5 pb-4 d-flex row align-items-center">
               <div class="col-sm-4">
                 <h5 class="custom-heading text-center">緊急聯絡人</h5>
                 <h5 class="custom-heading text-center">Emergency<br>Contact</h5>
               </div>
-              <c:forEach var="contact" items="${listContact}">
-              	<div class="col-sm-8 border-left">
-	                <h4 class="text-center custom-heading mb-1">${contact.contactName}</h4>
-	                <p class="text-center custom-text mb-1">${contact.relationship}</p>
-	                <h6 class="text-center custom-heading mb-1">${contact.phoneNumber}</h6>
-	                <h6 class="text-center custom-heading mb-1">${contact.email}</h6>
-	              </div>
-	              <a href="#" id="editContactBtn" class="submitBtn editBtn">編輯聯絡人</a>
-              </c:forEach>
+              <div class="col-sm-8 border-left">
+                <h4 class="text-center custom-heading mb-1">${contact.contactName}</h4>
+                <p class="text-center custom-text mb-1">${contact.relationship}</p>
+                <h6 class="text-center custom-heading mb-1">${contact.phoneNumber}</h6>
+                <h6 class="text-center custom-heading mb-1">${contact.email}</h6>
+              </div>
+              <a href="#" id="editContactBtn" class="submitBtn editBtn">編輯聯絡人</a>
             </div>
           </div>
         </div>
         <div class="col-md-7 mt-5">
-          <div class="card dashboard__card py-3 px-4">
+          <div class="card dashboard__card py-3 px-4 dashboard__medicine-record">
             <div class="card-head p-2 border-bottom">
               <h5 class="custom-heading mb-0">智慧藥箱｜用藥紀錄</h5>
               <h5 class="custom-heading">Medicine Records</h5>
             </div>
             <div class="card-body py-0 mb-5">
               <ul class="record__list px-0 d-flex flex-column">
-              	<c:forEach var="medicineRecord" items="${listMedicineRecords}">
+              	<c:forEach var="medicineRecord" items="${listFiveMedicineRecords}">
               		<li class="record__list-item row mx-0">
 	                  <div class="col-sm-2 px-0">
 	                    <h6 class="custom-heading">${medicineRecord.memberName}</h6>
@@ -101,8 +90,14 @@
 	                  </div>
 	                  <div class="col-sm-6 d-flex justify-content-between px-0">
 	                    <p class="custom-heading mb-0">${medicineRecord.medicine}</p>
-	                    <span class="record__list-icon record__list-icon--green"><i class="fa fa-check"
+	                    <c:if test="${medicineRecord.memberCondition.equals(\"1\")}">
+	                    	<span class="record__list-icon record__list-icon--green"><i class="fa fa-check"
 	                        aria-hidden="true"></i></span>
+	                    </c:if>
+	                    <c:if test="${medicineRecord.memberCondition.equals(\"0\")}">
+	                    	<span class="record__list-icon record__list-icon--red"><i class="fa fa-times"
+	                        aria-hidden="true"></i></span>
+	                    </c:if>
 	                  </div>
 	                </li>
               	</c:forEach>
@@ -119,16 +114,17 @@
                 <h5 class="custom-heading text-center">跌倒偵測</h5>
                 <h5 class="custom-heading text-center mb-0">Fall<br>Detection</h5>
               </div>
-              <% FallRecord fallRecord = (FallRecord)request.getAttribute("latestRecord"); %>
+              <% FallRecord fallRecord = (FallRecord)request.getAttribute("latestRecord");
+              %>
               <div class="col-sm-8 border-left py-1">
               	<% if(fallRecord.getCondition().equals("safe")) { %>
-                	<h1 class="text-center custom-heading--green mb-0">${fallRecord.getCondition()}</h1>
+                	<h1 class="text-center custom-heading--green mb-0"><% out.print(fallRecord.getCondition()); %></h1>
                 	<p class="text-mute mb-0 text-center custom-heading">Members are all safe</p>
                	<% } else if(fallRecord.getCondition().equals("fall")) { %>
-               		<h1 class="text-center custom-heading--red mb-0">${fallRecord.getCondition()}</h1>
+               		<h1 class="text-center custom-heading--red mb-0"><% out.print(fallRecord.getCondition()); %></h1>
                		<p class="text-mute mb-0 text-center custom-heading">Someone fall!!</p>
                	<% } else { %>
-               		<h1 class="text-center custom-heading--red mb-0">${fallRecord.getCondition()}</h1>
+               		<h1 class="text-center custom-heading--red mb-0"><% out.print(fallRecord.getCondition()); %></h1>
                		<p class="text-mute mb-0 text-center custom-heading">Member in danger!!</p>
                	<% } %>
               </div>
@@ -141,7 +137,7 @@
             </div>
             <div class="card-body py-0 mb-5">
               <ul class="record__list px-0 d-flex flex-column">
-              	<c:forEach var="doorRecord" items="${listDoorRecords}">
+              	<c:forEach var="doorRecord" items="${listThreeDoorRecords}">
               		<li class="record__list-item row mx-0">
 	                  <div class="col-sm-3 px-0">
 	                    <h6 class="custom-heading">${doorRecord.memberName}</h6>
@@ -151,8 +147,13 @@
 	                  </div>
 	                  <div class="col-sm-2 text-right px-0">
 	                  	<c:choose>
-	                  		<c:when test="${doorRecord.realFake == null }">
-	                  			<p class="custom-heading mb-0 pr-2">${doorRecord.condition}</p>
+	                  		<c:when test="${doorRecord.realFake.equals(\"1\")}">
+	                  			<c:if test="${doorRecord.condition.equals(\"in\")}">
+	                  				<p class="custom-heading mb-0 pr-2">進門</p>
+	                  			</c:if>
+	                  			<c:if test="${doorRecord.condition.equals(\"out\")}">
+	                  				<p class="custom-heading mb-0 pr-2">出門</p>
+	                  			</c:if>
 	                  		</c:when>
 	                  		<c:otherwise>
 	                  			<p class="custom-heading mb-0 pr-2">異常</p>
@@ -177,29 +178,30 @@
       <div class="card-body p-4">
         <h3 class="h4 text-center py-3 custom-heading">編輯聯絡人</h3>
         <hr class="py-3">
-        <form name="contactForm" action="dashboard.html" class="px-4 d-flex flex-column">
+        <form name="contactForm" action="edit_contact" class="px-4 d-flex flex-column">
+          <input type="hidden"name="contact_id" value="${contact.contactId}">
           <div class="form-group row">
             <label for="contactName" class="col-md-3 col-sm-4 col-form-label">姓 名：</label>
             <div class="col-md-9 col-sm-8">
-              <input type="text" class="form-control" id="contactName" name="contactName" placeholder="請輸入聯絡人姓名">
+              <input type="text" class="form-control" id="contactName" name="contactName" value="${contact.contactName}">
             </div>
           </div>
           <div class="form-group row">
             <label for="relationship" class="col-md-3 col-sm-4 col-form-label">關 係：</label>
             <div class="col-md-9 col-sm-8">
-              <input type="text" class="form-control" id="relationship" name="relationship" placeholder="請輸入聯絡人與家庭成員的關係">
+              <input type="text" class="form-control" id="relationship" name="relationship" value="${contact.relationship}">
             </div>
           </div>
           <div class="form-group row">
             <label for="phoneNumber" class="col-md-3 col-sm-4 col-form-label">聯絡電話：</label>
             <div class="col-md-9 col-sm-8">
-              <input type="number" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="請輸入手機號碼">
+              <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="${contact.phoneNumber}">
             </div>
           </div>
           <div class="form-group row">
             <label for="contactEmail" class="col-md-3 col-sm-4 col-form-label">E-mail：</label>
             <div class="col-md-9 col-sm-8">
-              <input type="email" class="form-control" id="contactEmail" name="contactEmail" placeholder="請輸入聯絡信箱">
+              <input type="email" class="form-control" id="contactEmail" name="contactEmail" value="${contact.email}">
             </div>
           </div>
           <div class="action-bar align-self-end mt-3">
@@ -216,7 +218,7 @@
       <div class="card-body card-body__medicine">
         <h3 class="h4 text-center py-3 custom-heading">用藥設定</h3>
         <hr class="py-3">
-        <form name="medicineForm" action="#" class="px-4 d-flex flex-column">
+        <form name="medicineForm" action="new_medicine" class="px-4 d-flex flex-column">
           <div class="form-group row">
             <label for="memberName" class="col-md-3 col-sm-4 col-form-label">家庭成員：</label>
             <div class="col-md-9 col-sm-8">
@@ -301,84 +303,51 @@
           </div>
           <div class="action-bar align-self-end mt-3">
             <input type="reset" value="取消" class="submitBtn cancelBtn mr-1">
-            <input type="submit" value="新增設定" class="submitBtn">
+            <input type="submit" value="新增設定" class="submitBtn addNewBtn">
           </div>
         </form>
         
         <div class="medicine__list">
           <ul class="px-2">
-            <li class="medicine__list-item row">
-              <div class="col-sm-3">
-                <p class="mb-0">Grandma</p>
-              </div>
-              <div class="col-sm-2">
-                <p class="mb-0">08:30</p>
-              </div>
-              <div class="col-sm-5">
-                <p class="mb-0">藥盒1 - B-complex</p>
-                <p class="mb-0">藥盒2 - 維骨力</p>
-                <p class="mb-0">藥盒4 - 降血壓</p>
-              </div>
-              <div class="col-sm-2 text-right">
-                <a href="#" class="medicine__list-icon medicine__list-icon--delete mr-1"><i class="fa fa-trash-o"
-                    aria-hidden="true"></i></a>
-                <a href="#" class="medicine__list-icon mr-1"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-              </div>
-            </li>
-            <li class="medicine__list-item row">
-              <div class="col-sm-3">
-                <p class="mb-0">Grandma</p>
-              </div>
-              <div class="col-sm-2">
-                <p class="mb-0">08:30</p>
-              </div>
-              <div class="col-sm-5">
-                <p class="mb-0">藥盒1 - B-complex</p>
-                <p class="mb-0">藥盒2 - 維骨力</p>
-                <p class="mb-0">藥盒4 - 降血壓</p>
-              </div>
-              <div class="col-sm-2 text-right">
-                <a href="#" class="medicine__list-icon medicine__list-icon--delete mr-1"><i class="fa fa-trash-o"
-                    aria-hidden="true"></i></a>
-                <a href="#" class="medicine__list-icon mr-1"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-              </div>
-            </li>
-            <li class="medicine__list-item row">
-              <div class="col-sm-3">
-                <p class="mb-0">Grandma</p>
-              </div>
-              <div class="col-sm-2">
-                <p class="mb-0">08:30</p>
-              </div>
-              <div class="col-sm-5">
-                <p class="mb-0">藥盒1 - B-complex</p>
-                <p class="mb-0">藥盒2 - 維骨力</p>
-                <p class="mb-0">藥盒4 - 降血壓</p>
-              </div>
-              <div class="col-sm-2 text-right">
-                <a href="#" class="medicine__list-icon medicine__list-icon--delete mr-1"><i class="fa fa-trash-o"
-                    aria-hidden="true"></i></a>
-                <a href="#" class="medicine__list-icon mr-1"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-              </div>
-            </li>
-            <li class="medicine__list-item row">
-              <div class="col-sm-3">
-                <p class="mb-0">Grandma</p>
-              </div>
-              <div class="col-sm-2">
-                <p class="mb-0">08:30</p>
-              </div>
-              <div class="col-sm-5">
-                <p class="mb-0">藥盒1 - B-complex</p>
-                <p class="mb-0">藥盒2 - 維骨力</p>
-                <p class="mb-0">藥盒4 - 降血壓</p>
-              </div>
-              <div class="col-sm-2 text-right">
-                <a href="#" class="medicine__list-icon medicine__list-icon--delete mr-1"><i class="fa fa-trash-o"
-                    aria-hidden="true"></i></a>
-                <a href="#" class="medicine__list-icon mr-1"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-              </div>
-            </li>
+          	<c:forEach var="medicine" items="${listMedicines}">
+          		<li class="medicine__list-item row">
+	              <input type="hidden" name="record_id" id="record_${medicine.ruleId}" value="${medicine.ruleId}">
+	              <div class="col-sm-3">
+	                <p class="mb-0">${medicine.memberName}</p>
+	              </div>
+	              <div class="col-sm-2">
+	                <p class="mb-0">${medicine.alertTime}</p>
+	              </div>
+	              <div class="col-sm-5">
+	              	<input type="hidden" value="${medicine.box_1}"><input type="hidden" value="${medicine.medicine_1}">
+	              	<input type="hidden" value="${medicine.box_2}"><input type="hidden" value="${medicine.medicine_2}">
+	              	<input type="hidden" value="${medicine.box_3}"><input type="hidden" value="${medicine.medicine_3}">
+	              	<input type="hidden" value="${medicine.box_4}"><input type="hidden" value="${medicine.medicine_4}">
+	              	<input type="hidden" value="${medicine.box_5}"><input type="hidden" value="${medicine.medicine_5}">
+	                <c:set var="box_flag" scope="request" value="${\"1\"}"/>
+	              	<c:if test="${medicine.box_1.equals(box_flag)}">
+	              		<p class="mb-0">藥盒1 - ${medicine.medicine_1}</p>
+	              	</c:if>
+	              	<c:if test="${medicine.box_2.equals(box_flag)}">
+	              		<p class="mb-0">藥盒2 - ${medicine.medicine_2}</p>
+	              	</c:if>
+	              	<c:if test="${medicine.box_3.equals(box_flag)}">
+	              		<p class="mb-0">藥盒3 - ${medicine.medicine_3}</p>
+	              	</c:if>
+	              	<c:if test="${medicine.box_4.equals(box_flag)}">
+	              		<p class="mb-0">藥盒4 - ${medicine.medicine_4}</p>
+	              	</c:if>
+	              	<c:if test="${medicine.box_5.equals(box_flag)}">
+	              		<p class="mb-0">藥盒5 - ${medicine.medicine_5}</p>
+	              	</c:if>
+	              </div>
+	              <div class="col-sm-2 text-right">
+	                <a href="delete_medicine?id=${medicine.ruleId}" class="medicine__list-icon medicine__list-icon--delete mr-1"><i class="fa fa-trash-o delMed"
+	                    aria-hidden="true"></i></a>
+	                <a href="edit_medicine?id=${medicine.ruleId}" class="medicine__list-icon mr-1"><i class="fa fa-pencil editMed" aria-hidden="true"></i></a>
+	              </div>
+	            </li>
+          	</c:forEach>
           </ul>
         </div>
       </div>
@@ -392,66 +361,27 @@
         <a href="#" class="closingBtn">X</a>
         <hr class="mt-3">
         <ul class="record__list px-0 d-flex flex-column">
-          <li class="record__list-item row mx-0 mx-0">
-            <div class="col-sm-2 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-4">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-6 d-flex justify-content-between px-0">
-              <p class="custom-heading mb-0">B-complex, 維骨力, 降血壓</p>
-              <span class="record__list-icon record__list-icon--green"><i class="fa fa-check" aria-hidden="true"></i></span>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-2 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-4">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-6 d-flex justify-content-between px-0">
-              <p class="custom-heading mb-0">B-complex, 維骨力, 降血壓</p>
-              <span class="record__list-icon record__list-icon--green"><i class="fa fa-check" aria-hidden="true"></i></span>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-2 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-4">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-6 d-flex justify-content-between px-0">
-              <p class="custom-heading mb-0">B-complex, 維骨力, 降血壓</p>
-              <span class="record__list-icon record__list-icon--red"><i class="fa fa-check" aria-hidden="true"></i></span>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-2 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-4">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-6 d-flex justify-content-between px-0">
-              <p class="custom-heading mb-0">B-complex, 維骨力, 降血壓</p>
-              <span class="record__list-icon record__list-icon--green"><i class="fa fa-check" aria-hidden="true"></i></span>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-2 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-4">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-6 d-flex justify-content-between px-0">
-              <p class="custom-heading mb-0">B-complex, 維骨力, 降血壓</p>
-              <span class="record__list-icon record__list-icon--green"><i class="fa fa-check" aria-hidden="true"></i></span>
-            </div>
-          </li>
+          <c:forEach var="medicineRecord" items="${listMedicineRecords}">
+          	<li class="record__list-item row mx-0">
+                <div class="col-sm-2 px-0">
+                  <h6 class="custom-heading">${medicineRecord.memberName}</h6>
+                </div>
+                <div class="col-sm-4">
+                  <p class="custom-heading mb-0">${medicineRecord.timeStamp}</p>
+                </div>
+                <div class="col-sm-6 d-flex justify-content-between px-0">
+                  <p class="custom-heading mb-0">${medicineRecord.medicine}</p>
+                  <c:if test="${medicineRecord.memberCondition.equals(\"1\")}">
+                  	<span class="record__list-icon record__list-icon--green"><i class="fa fa-check"
+                      aria-hidden="true"></i></span>
+                  </c:if>
+                  <c:if test="${medicineRecord.memberCondition.equals(\"0\")}">
+                  	<span class="record__list-icon record__list-icon--red"><i class="fa fa-times"
+                      aria-hidden="true"></i></span>
+                  </c:if>
+                </div>
+              </li>
+          </c:forEach>
         </ul>
       </div>
     </div>
@@ -464,171 +394,31 @@
         <a href="#" class="closingBtn">X</a>
         <hr class="mt-3">
         <ul class="record__list px-0 d-flex flex-column">
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-3 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-7">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-2 text-right px-0">
-              <p class="custom-heading mb-0 pr-2">出門</p>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-3 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-7">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-2 text-right px-0">
-              <p class="custom-heading mb-0 pr-2">出門</p>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-3 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-7">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-2 text-right px-0">
-              <p class="custom-heading mb-0 pr-2">出門</p>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-3 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-7">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-2 text-right px-0">
-              <p class="custom-heading mb-0 pr-2">出門</p>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-3 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-7">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-2 text-right px-0">
-              <p class="custom-heading mb-0 pr-2">出門</p>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-3 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-7">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-2 text-right px-0">
-              <p class="custom-heading mb-0 pr-2">出門</p>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-3 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-7">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-2 text-right px-0">
-              <p class="custom-heading mb-0 pr-2">出門</p>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-3 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-7">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-2 text-right px-0">
-              <p class="custom-heading mb-0 pr-2">出門</p>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-3 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-7">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-2 text-right px-0">
-              <p class="custom-heading mb-0 pr-2">出門</p>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-3 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-7">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-2 text-right px-0">
-              <p class="custom-heading mb-0 pr-2">出門</p>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-3 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-7">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-2 text-right px-0">
-              <p class="custom-heading mb-0 pr-2">出門</p>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-3 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-7">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-2 text-right px-0">
-              <p class="custom-heading mb-0 pr-2">出門</p>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-3 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-7">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-2 text-right px-0">
-              <p class="custom-heading mb-0 pr-2">出門</p>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-3 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-7">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-2 text-right px-0">
-              <p class="custom-heading mb-0 pr-2">出門</p>
-            </div>
-          </li>
-          <li class="record__list-item row mx-0">
-            <div class="col-sm-3 px-0">
-              <h6 class="custom-heading">Grandma</h6>
-            </div>
-            <div class="col-sm-7">
-              <p class="custom-heading mb-0">2019.07.30 08:31</p>
-            </div>
-            <div class="col-sm-2 text-right px-0">
-              <p class="custom-heading mb-0 pr-2">出門</p>
-            </div>
-          </li>
+          <c:forEach var="doorRecord" items="${listDoorRecords}">
+        	<li class="record__list-item row mx-0">
+             <div class="col-sm-3 px-0">
+               <h6 class="custom-heading">${doorRecord.memberName}</h6>
+             </div>
+             <div class="col-sm-7">
+               <p class="custom-heading mb-0">${doorRecord.timeStamp}</p>
+             </div>
+             <div class="col-sm-2 text-right px-0">
+             	<c:choose>
+             		<c:when test="${doorRecord.realFake.equals(\"1\")}">
+             			<c:if test="${doorRecord.condition.equals(\"in\")}">
+             				<p class="custom-heading mb-0 pr-2">進門</p>
+             			</c:if>
+             			<c:if test="${doorRecord.condition.equals(\"out\")}">
+             				<p class="custom-heading mb-0 pr-2">出門</p>
+             			</c:if>
+             		</c:when>
+             		<c:otherwise>
+             			<p class="custom-heading mb-0 pr-2 text-danger">異常</p>
+             		</c:otherwise>
+             	</c:choose>
+             </div>
+           </li>
+          </c:forEach>
         </ul>
       </div>
     </div>

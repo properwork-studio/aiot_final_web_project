@@ -106,6 +106,7 @@ public class MemberServlet extends HttpServlet {
 	
 	
 	protected String fileUpload(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+		ServletContext ctx = this.getServletContext();
 		initFileUpload();
 		String fileName = null;
 		try{ 
@@ -125,11 +126,12 @@ public class MemberServlet extends HttpServlet {
 							//String fileName = fis.getName().substring(fis.getName().lastIndexOf("/"));//獲得上傳檔案的檔名
 							fileName = fis.getName();//獲得上傳檔案的檔名
 //							System.out.println("request.getRealPath()=="+request.getRealPath("/")); 
-//							String uploadPath = request.getRealPath("/")+"dataimages/";//選定上傳的目錄此處為當前目錄 
-							String uploadPath = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()+"/dataimages/";
+							String uploadPath = request.getRealPath("/")+"dataimages/";//選定上傳的目錄此處為當前目錄 
+//							String uploadPath = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()+"/dataimages/";
 							if(!new File(uploadPath).isDirectory())//選定上傳的目錄此處為當前目錄,沒有則建立 
 								new File(uploadPath).mkdirs(); 
 							System.out.println("uploadPath="+uploadPath); 
+							ctx.setAttribute("uploadPath", uploadPath);
 							fileName=fileName.substring(fileName.lastIndexOf("."));//獲取從.開始到最後的字元 
 							//將時間轉化為字串用於給檔案或者資料夾改名,防止傳上來的圖片名稱相同 
 							Date time=new Date(); 

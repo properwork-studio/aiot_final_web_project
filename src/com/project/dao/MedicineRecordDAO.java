@@ -16,7 +16,8 @@ public class MedicineRecordDAO {
 
 	private static final String SELECT_RECORD_BY_ID = "SELECT * FROM medicineRecords WHERE record_id =?";
 //	private static final String SELECT_USER_BY_USERNAME = "SELECT * FROM Users WHERE username =?";
-	private static final String SELECT_ALL_RECORDS = "SELECT * FROM medicineRecords";
+	private static final String SELECT_ALL_RECORDS = "SELECT * FROM medicineRecords ORDER BY record_id DESC LIMIT 100";
+	private static final String SELECT_FIVE_RECORDS = "SELECT * FROM medicineRecords ORDER BY record_id DESC LIMIT 5";
 //	private static final String DELETE_USERS_SQL = "DELETE FROM Users WHERE user_id = ?;";
 //	private static final String UPDATE_USERS_SQL = "UPDATE Users SET nickname = ?,email= ?, introduction =?, user_image =? WHERE user_id = ?;";
 	
@@ -72,6 +73,32 @@ public class MedicineRecordDAO {
 		try (
 			// Step :Create a statement using connection object
 			PreparedStatement preparedStatement = con.prepareStatement(SELECT_ALL_RECORDS);) {
+			System.out.println(preparedStatement);
+			// Step : Execute the query or update query
+			ResultSet rs = preparedStatement.executeQuery();
+
+			// Step : Process the ResultSet object.
+			while (rs.next()) {
+				int id = rs.getInt("record_id");
+				String memberName = rs.getString("member_name");
+				String timeStamp = rs.getString("time_stamp");
+				String medicine = rs.getString("medicine");
+				String memberCondition = rs.getString("member_condition");
+				records.add(new MedicineRecord(id, memberName, timeStamp, medicine, memberCondition));
+			}
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
+		return records;
+	}
+	
+	public List<MedicineRecord> selectFiveRecords(Connection con) {
+
+		// using try-with-resources to avoid closing resources (boiler plate code)
+		List<MedicineRecord> records = new ArrayList<>();
+		try (
+			// Step :Create a statement using connection object
+			PreparedStatement preparedStatement = con.prepareStatement(SELECT_FIVE_RECORDS);) {
 			System.out.println(preparedStatement);
 			// Step : Execute the query or update query
 			ResultSet rs = preparedStatement.executeQuery();

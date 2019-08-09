@@ -58,8 +58,10 @@ public class DashboardServlet extends HttpServlet {
 		grabMembers(request, response, con);
 		grabContact(request, response, con);
 		grabMedicine(request, response, con);
+		grabAllMedicineRecords(request, response, con);
 		grabMedicineRecords(request, response, con);
 		grabFallRecord(request, response, con);
+		grabAllDoorRecords(request, response, con);
 		grabDoorRecords(request, response, con);
 		request.getRequestDispatcher("dashboard.jsp").forward(request, response);
 	}
@@ -78,8 +80,8 @@ public class DashboardServlet extends HttpServlet {
 	}
 	
 	protected void grabContact(HttpServletRequest request, HttpServletResponse response, Connection con) {
-		List<Contact> listContact = contactDAO.selectAllContact(con);
-		request.setAttribute("listContact", listContact);
+		Contact contact = contactDAO.selectLastContact(con);
+		request.setAttribute("contact", contact);
 	}
 	
 	protected void grabMedicine(HttpServletRequest request, HttpServletResponse response, Connection con) {
@@ -87,22 +89,31 @@ public class DashboardServlet extends HttpServlet {
 		request.setAttribute("listMedicines", listMedicines);
 	}
 	
-	protected void grabMedicineRecords(HttpServletRequest request, HttpServletResponse response, Connection con) {
+	protected void grabAllMedicineRecords(HttpServletRequest request, HttpServletResponse response, Connection con) {
 		List<MedicineRecord> listMedicineRecords = medicineRecordDAO.selectAllRecords(con);
 		request.setAttribute("listMedicineRecords", listMedicineRecords);
 	}
 	
+	protected void grabMedicineRecords(HttpServletRequest request, HttpServletResponse response, Connection con) {
+		List<MedicineRecord> listMedicineRecords = medicineRecordDAO.selectFiveRecords(con);
+		request.setAttribute("listFiveMedicineRecords", listMedicineRecords);
+	}
+	
 	protected void grabFallRecord(HttpServletRequest request, HttpServletResponse response, Connection con) {
 		List<FallRecord> listFallRecords = fallRecordDAO.selectAllRecords(con);
-		int last = listFallRecords.size() - 1;
+		FallRecord latestRecord = listFallRecords.get(0);
 		System.out.println(listFallRecords.size());
-		FallRecord latestRecord = listFallRecords.get(last);
 		request.setAttribute("latestRecord", latestRecord);
 	}
 	
-	protected void grabDoorRecords(HttpServletRequest request, HttpServletResponse response, Connection con) {
+	protected void grabAllDoorRecords(HttpServletRequest request, HttpServletResponse response, Connection con) {
 		List<DoorRecord> listDoorRecords = doorRecordDAO.selectAllRecords(con);
 		request.setAttribute("listDoorRecords", listDoorRecords);
+	}
+	
+	protected void grabDoorRecords(HttpServletRequest request, HttpServletResponse response, Connection con) {
+		List<DoorRecord> listDoorRecords = doorRecordDAO.selectThreeRecords(con);
+		request.setAttribute("listThreeDoorRecords", listDoorRecords);
 	}
 
 }

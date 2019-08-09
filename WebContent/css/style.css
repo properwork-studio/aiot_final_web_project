@@ -21,7 +21,8 @@ ul {
     color: transparent;
     -webkit-background-clip: text;
     font-weight: 700;
-    letter-spacing: 2px; }
+    letter-spacing: 2px;
+    text-transform: uppercase; }
 
 .custom-text {
   color: #999;
@@ -236,11 +237,21 @@ header {
   .dashboard__card {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     height: 100%; }
+  .dashboard__medicine-record {
+  	min-height: 415px;
+   }
   .dashboard__fall {
     height: calc(30% - 15px);
-    margin-bottom: 30px; }
+    margin-bottom: 30px;
+    min-height: 110px; }
   .dashboard__door {
     height: calc(70% - 15px); }
+
+.member__item {
+	border-left: 1px solid #dee2e6;
+	/* border-right: 1px solid #dee2e6; */
+	align-self: stretch;
+}
 
 .member__image {
   width: 100px;
@@ -270,7 +281,8 @@ header {
   .record__list-icon--green {
     color: #55c57a; }
   .record__list-icon--red {
-    color: #dc3545; }
+    color: #dc3545;
+    line-height: 20px; }
 
 .overlay__background {
   display: none;
