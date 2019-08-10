@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.project.dao.*;
 import com.project.model.*;
@@ -63,6 +64,10 @@ public class DashboardServlet extends HttpServlet {
 		grabFallRecord(request, response, con);
 		grabAllDoorRecords(request, response, con);
 		grabDoorRecords(request, response, con);
+		HttpSession session = request.getSession();
+		String dbname = (String) session.getAttribute("current_dbname");
+		String photoPath = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/dataimages/" + dbname + "/";
+		request.setAttribute("realPath", photoPath);
 		request.getRequestDispatcher("dashboard.jsp").forward(request, response);
 	}
 

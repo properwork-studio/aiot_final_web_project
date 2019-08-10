@@ -263,6 +263,11 @@ header {
   display: flex;
   align-items: center;
   justify-content: center; }
+  
+.member__image-item {
+    width: 100%;
+    height: 100%;
+    background-size: cover !important; }
 
 .record__list-item {
   padding: 15px 0; }

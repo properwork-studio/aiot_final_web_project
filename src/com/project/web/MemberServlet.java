@@ -70,7 +70,7 @@ public class MemberServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String action = request.getServletPath();
-//		HttpSession session = request.getSession();
+		
 		ServletContext ctx = this.getServletContext();
 		Connection con = (Connection)ctx.getAttribute("current_db");
 		System.out.println("Connection: " + con);
@@ -96,7 +96,9 @@ public class MemberServlet extends HttpServlet {
 
 	private void addNewMember(HttpServletRequest request, HttpServletResponse response, Connection con) throws SQLException, IOException, ServletException {
 		// Reading new member's data
-		String fileName = fileUpload(request, response);
+		HttpSession session = request.getSession();
+		String currentDB = (String) session.getAttribute("current_dbname");
+		String fileName = fileUpload(request, response, currentDB);
 		System.out.println(fileName);
 		// Putting data into database
 		Member newMember = new Member(memberName, nameForTraining, birthday, idNumber, fileName);
@@ -105,7 +107,7 @@ public class MemberServlet extends HttpServlet {
 	}
 	
 	
-	protected String fileUpload(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	protected String fileUpload(HttpServletRequest request, HttpServletResponse response, String currentDB) throws ServletException {
 		ServletContext ctx = this.getServletContext();
 		initFileUpload();
 		String fileName = null;
@@ -126,7 +128,7 @@ public class MemberServlet extends HttpServlet {
 							//String fileName = fis.getName().substring(fis.getName().lastIndexOf("/"));//獲得上傳檔案的檔名
 							fileName = fis.getName();//獲得上傳檔案的檔名
 //							System.out.println("request.getRealPath()=="+request.getRealPath("/")); 
-							String uploadPath = request.getRealPath("/")+"dataimages/";//選定上傳的目錄此處為當前目錄 
+							String uploadPath = request.getRealPath("/")+"dataimages/"+currentDB+"/";//選定上傳的目錄此處為當前目錄 
 //							String uploadPath = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()+"/dataimages/";
 							if(!new File(uploadPath).isDirectory())//選定上傳的目錄此處為當前目錄,沒有則建立 
 								new File(uploadPath).mkdirs(); 

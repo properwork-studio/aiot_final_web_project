@@ -90,6 +90,7 @@ public class LoginServlet extends HttpServlet {
 			if(user.getPassword().equals(encodedPassword)) {
 				HttpSession session = request.getSession();
 				session.setAttribute("currentUser", user.getName());
+				session.setAttribute("current_dbname", dbname);
 				newDBConnection(dbname, ctx);
 				response.sendRedirect("dashboard");
 			} else {

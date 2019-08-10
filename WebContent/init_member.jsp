@@ -58,7 +58,7 @@
             <div class="col-md-9 col-sm-8">
               <div class="custom-file">
                 <input type="file" class="custom-file-input" id="customFile" name="uploadFile">
-                <label class="custom-file-label" for="customFile">請選擇一張清晰的正面照片</label>
+                <label class="custom-file-label" for="customFile"></label>
               </div>
             </div>
           </div>

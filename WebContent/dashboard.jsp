@@ -44,8 +44,8 @@
               <c:forEach var="member" items="${listMembers}">
               	 <div class="col-sm-4 d-flex flex-column member__item">
 	                <div class="member__image mb-3">
-	                  <!-- "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()+"/dataimages/" -->
-	                  <img src="https://fakeimg.pl/100/">
+		                <span style="background: url('${realPath}${member.photoPath}') center center no-repeat;"
+	                    class="member__image-item"></span>
 	                </div>
 	                <h6 class="text-center custom-heading mb-1">${member.memberName}</h6>
 	                <h6 class="text-center custom-heading mb-1">${member.birthday}</h6>
