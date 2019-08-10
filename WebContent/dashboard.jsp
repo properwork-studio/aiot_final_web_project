@@ -25,8 +25,8 @@
           <h3 class="h6 custom-heading text-white">遠端關心長輩的好幫手</h3>
         </div>
         <div class="d-flex align-items-center logout__bar">
-          <% ServletContext ctx = this.getServletContext(); %>
-          <p class="mb-0 mr-3">Welcome back, <b><% out.print(ctx.getAttribute("currentUser")); %></b></p>
+          <% HttpSession sess = request.getSession(); %>
+          <p class="mb-0 mr-3">Welcome back, <b><% out.print(session.getAttribute("currentUser")); %></b></p>
           <a href="toLogout" class="submitBtn logoutBtn">Logout</a>
         </div>
       </div>
@@ -76,7 +76,7 @@
           <div class="card dashboard__card py-3 px-4 dashboard__medicine-record">
             <div class="card-head p-2 border-bottom">
               <h5 class="custom-heading mb-0">智慧藥箱｜用藥紀錄</h5>
-              <h5 class="custom-heading">Medicine Records</h5>
+              <h5 class="custom-heading mb-3">Medicine Records</h5>
             </div>
             <div class="card-body py-0 mb-5">
               <ul class="record__list px-0 d-flex flex-column">
@@ -218,13 +218,15 @@
       <div class="card-body card-body__medicine">
         <h3 class="h4 text-center py-3 custom-heading">用藥設定</h3>
         <hr class="py-3">
-        <form name="medicineForm" action="new_medicine" class="px-4 d-flex flex-column">
+        <form name="medicineForm" class="px-4 d-flex flex-column">
+          <input type="hidden" name="record_id" id="recordId" value="">
           <div class="form-group row">
             <label for="memberName" class="col-md-3 col-sm-4 col-form-label">家庭成員：</label>
             <div class="col-md-9 col-sm-8">
-              <select class="form-control" id="memberName">
-                <option value="member1">家庭成員1</option>
-                <option value="member2">家庭成員2</option>
+              <select class="form-control" id="memberName" name="memberName">
+              	<c:forEach var="member" items="${listMembers}">
+              		<option value="${member.memberName}">${member.memberName}</option>
+              	</c:forEach>
               </select>
             </div>
           </div>
@@ -247,68 +249,68 @@
               <div class="row mb-2 d-flex align-items-center">
                 <div class="col-sm-3">
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input mr-2" type="checkbox" id="medicineBox1" value="box1">
+                  	<input class="form-check-input mr-2" type="checkbox" id="medicineBox1" name="box_1" value="true">
                     <label class="form-check-label" for="medicineBox1">藥盒1</label>
                   </div>
                 </div>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="medicine1" name="medicine1" placeholder="請輸入藥名">
+                  <input type="text" class="form-control" id="medicine1" name="medicine_1" placeholder="請輸入藥名">
                 </div>
               </div>
               <div class="row mb-2 d-flex align-items-center">
                 <div class="col-sm-3">
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input mr-2" type="checkbox" id="medicineBox2" value="box2">
+                    <input class="form-check-input mr-2" type="checkbox" id="medicineBox2" name="box_2" value="true">
                     <label class="form-check-label" for="medicineBox2">藥盒2</label>
                   </div>
                 </div>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="medicine2" name="medicine2" placeholder="請輸入藥名">
+                  <input type="text" class="form-control" id="medicine2" name="medicine_2" placeholder="請輸入藥名">
                 </div>
               </div>
               <div class="row mb-2 d-flex align-items-center">
                 <div class="col-sm-3">
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input mr-2" type="checkbox" id="medicineBox3" value="box3">
+                    <input class="form-check-input mr-2" type="checkbox" id="medicineBox3" name="box_3" value="true">
                     <label class="form-check-label" for="medicineBox3">藥盒3</label>
                   </div>
                 </div>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="medicine3" name="medicine3" placeholder="請輸入藥名">
+                  <input type="text" class="form-control" id="medicine3" name="medicine_3" placeholder="請輸入藥名">
                 </div>
               </div>
               <div class="row mb-2 d-flex align-items-center">
                 <div class="col-sm-3">
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input mr-2" type="checkbox" id="medicineBox4" value="box4">
+                    <input class="form-check-input mr-2" type="checkbox" id="medicineBox4" name="box_4" value="true">
                     <label class="form-check-label" for="medicineBox4">藥盒4</label>
                   </div>
                 </div>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="medicine4" name="medicine4" placeholder="請輸入藥名">
+                  <input type="text" class="form-control" id="medicine4" name="medicine_4" placeholder="請輸入藥名">
                 </div>
               </div>
               <div class="row d-flex align-items-center">
                 <div class="col-sm-3">
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input mr-2" type="checkbox" id="medicineBox5" value="box5">
+                    <input class="form-check-input mr-2" type="checkbox" id="medicineBox5" name="box_5" value="true">
                     <label class="form-check-label" for="medicineBox5">藥盒5</label>
                   </div>
                 </div>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="medicine5" name="medicine5" placeholder="請輸入藥名">
+                  <input type="text" class="form-control" id="medicine5" name="medicine_5" placeholder="請輸入藥名">
                 </div>
               </div>
             </div>
           </div>
           <div class="action-bar align-self-end mt-3">
             <input type="reset" value="取消" class="submitBtn cancelBtn mr-1">
-            <input type="submit" value="新增設定" class="submitBtn addNewBtn">
+            <input type="submit" value="新增設定" class="submitBtn addNewBtn" id="submitBtn">
           </div>
         </form>
         
         <div class="medicine__list">
-          <ul class="px-2">
+          <ul class="px-2" id="medicineList">
           	<c:forEach var="medicine" items="${listMedicines}">
           		<li class="medicine__list-item row">
 	              <input type="hidden" name="record_id" id="record_${medicine.ruleId}" value="${medicine.ruleId}">
@@ -342,7 +344,7 @@
 	              	</c:if>
 	              </div>
 	              <div class="col-sm-2 text-right">
-	                <a href="delete_medicine?id=${medicine.ruleId}" class="medicine__list-icon medicine__list-icon--delete mr-1"><i class="fa fa-trash-o delMed"
+	                <a href="delete_medicine?medicine_id=${medicine.ruleId}" class="medicine__list-icon medicine__list-icon--delete mr-1"><i class="fa fa-trash-o delMed"
 	                    aria-hidden="true"></i></a>
 	                <a href="edit_medicine?id=${medicine.ruleId}" class="medicine__list-icon mr-1"><i class="fa fa-pencil editMed" aria-hidden="true"></i></a>
 	              </div>
@@ -435,6 +437,19 @@
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
   <script src="js/script.js"></script>
+  
+  <% if(request.getParameter("open_overlay") != null) {
+	  String openOverlay = (String) request.getParameter("open_overlay");
+	  
+	  if(openOverlay.equals("true")) { %>
+		  <script>
+		  	openOverlay();
+		  	document.querySelector('.overlay__medicine').style.display = 'block';
+		    let lastId = document.getElementById('medicineList').children[0].children[0].value;
+		    document.getElementById('recordId').value = parseInt(lastId) + 1;
+		  </script>
+	  <% }
+  } %>
 </body>
 
 </html>

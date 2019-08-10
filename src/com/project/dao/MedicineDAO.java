@@ -17,7 +17,7 @@ public class MedicineDAO {
 
 	private static final String SELECT_MEDICINE_BY_ID = "SELECT * FROM medicines WHERE rule_id =?";
 //	private static final String SELECT_USER_BY_USERNAME = "SELECT * FROM Users WHERE username =?";
-	private static final String SELECT_ALL_MEDICINES = "SELECT * FROM medicines";
+	private static final String SELECT_ALL_MEDICINES = "SELECT * FROM medicines ORDER BY alert_time";
 	private static final String DELETE_MEDICINES_SQL = "DELETE FROM medicines WHERE rule_id = ?;";
 	private static final String UPDATE_MEDICINES_SQL = "UPDATE medicines SET member_name = ?, alert_time = ?, box_1 = ?, box_2 = ?, box_3 = ?, box_4 = ?, "
 			+ "box_5 = ?, medicine_1 = ?, medicine_2 = ?, medicine_3 = ?, medicine_4 = ?, medicine_5 = ? WHERE rule_id = ?;";
@@ -126,6 +126,7 @@ public class MedicineDAO {
 		boolean rowDeleted;
 		try (
 			PreparedStatement statement = con.prepareStatement(DELETE_MEDICINES_SQL);) {
+			System.out.println(statement);
 			statement.setInt(1, id);
 			rowDeleted = statement.executeUpdate() > 0;
 		}
@@ -136,6 +137,7 @@ public class MedicineDAO {
 		boolean rowUpdated;
 		try (
 			PreparedStatement preparedStatement = con.prepareStatement(UPDATE_MEDICINES_SQL);) {
+			System.out.println(preparedStatement);
 			preparedStatement.setString(1, medicine.getMemberName());
 			preparedStatement.setString(2, medicine.getAlertTime());
 			preparedStatement.setString(3, medicine.getBox_1());

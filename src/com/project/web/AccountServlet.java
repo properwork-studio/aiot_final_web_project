@@ -205,6 +205,7 @@ public class AccountServlet extends HttpServlet {
 		// Passing current user down
 		String dbname = email.substring(0, email.indexOf("@"));
 		HttpSession session = request.getSession();
+		ServletContext ctx = this.getServletContext();
 		session.setAttribute("currentUser", newUser.getName());
 		session.setAttribute("current_dbname", dbname);
 	}

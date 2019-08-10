@@ -29,6 +29,8 @@ const medicine4 = document.getElementById('medicine4');
 const medicine5 = document.getElementById('medicine5');
 const recordId = document.getElementById('recordId');
 
+let btnFlag = "add";
+
 const openOverlay = () => {
   overlayBg.style.display = 'block';
   document.body.style.overflow = 'hidden';
@@ -77,7 +79,7 @@ document.addEventListener('click', (e) => {
   }
   
   if (e.target.classList.contains('addNewBtn')) {
-    e.preventDefault();
+//    e.preventDefault();
     console.log("click")
     let row = "";
     // For Storing Data for Backend
@@ -109,28 +111,18 @@ document.addEventListener('click', (e) => {
     // For Show Data in Frontend
     if(medicineBox1.checked) {
       row += `<p class="mb-0">藥盒1 - ${medicine1.value}</p>`;
-      medicineBox1.checked = false;
-      medicine1.value = "";
     }
     if (medicineBox2.checked) {
       row += `<p class="mb-0">藥盒2 - ${medicine2.value}</p>`;
-      medicineBox2.checked = false;
-      medicine2.value = "";
     }
     if (medicineBox3.checked) {
       row += `<p class="mb-0">藥盒3 - ${medicine3.value}</p>`;
-      medicineBox3.checked = false;
-      medicine3.value = "";
     }
     if (medicineBox4.checked) {
       row += `<p class="mb-0">藥盒4 - ${medicine4.value}</p>`;
-      medicineBox4.checked = false;
-      medicine4.value = "";
     }
     if (medicineBox5.checked) {
       row += `<p class="mb-0">藥盒5 - ${medicine5.value}</p>`;
-      medicineBox5.checked = false;
-      medicine5.value = "";
     }
     
     let newRow = document.createElement('li');
@@ -153,21 +145,18 @@ document.addEventListener('click', (e) => {
       <input type="hidden" name="current_id" id="record_1" value="${recordId.value}"
     `;
     medicineList.insertBefore(newRow, medicineList.childNodes[0]);
-    memberName.options[0].selected = true;
-    alertHour.options[0].selected = true;
-    alertMinute.options[0].selected = true;
 
-    document.medicineForm.action="new_medicine";
+    console.log(btnFlag);
+    if(btnFlag == "add") {
+    	document.medicineForm.action="new_medicine";
+    }
     document.medicineForm.submit();
+    
   }
 
   if (e.target.classList.contains('delMed')) {
-    e.preventDefault();
     let currentId = e.target.parentElement.parentElement.parentElement.children[0].value;
     e.target.parentElement.parentElement.parentElement.remove();
-
-    document.medicineForm.action=`delete_medicine?id=${currentId}`;
-    document.medicineForm.submit();
   }
 
   if (e.target.classList.contains('editMed')) {
@@ -186,6 +175,9 @@ document.addEventListener('click', (e) => {
     let med4 = (e.target.parentElement.parentElement.parentElement.children[3].children[7].value)
     let med5 = (e.target.parentElement.parentElement.parentElement.children[3].children[9].value)
     console.log(e.target.parentElement.parentElement.parentElement.children[2].children[0].innerHTML)
+    console.log(e.target.parentElement.parentElement.parentElement.children[0].value)
+    console.log(id)
+    recordId.value = id;
     memberName.value = name;
     alertHour.value = toAlert.substring(0,2);
     alertMinute.value = toAlert.substring(3,);
@@ -209,7 +201,10 @@ document.addEventListener('click', (e) => {
       medicineBox5.checked = true;
       medicine5.value = med5;
     }
-    document.medicineForm.action=`edit_medicine?id=${currentId}`;
+    btnFlag = "edit";
+    document.medicineForm.action="edit_medicine?medicine_id=" + id;
+    document.getElementById("submitBtn").value = "確認編輯";
+    console.log(btnFlag);
   }
   // console.log(e.target.parentElement.parentElement.parentElement.children[1].children[0].innerHTML)
 })
@@ -217,16 +212,16 @@ document.addEventListener('click', (e) => {
 // For medicine alert setting
 for (let i = 1; i <= 24; i++) {
   if (i < 10) {
-    alertHour.innerHTML += `<option value="0${i}">0${i}</option>`
+    alertHour.innerHTML += "<option value=\"0"+ i + "\">0" + i + "</option>";
   } else {
-    alertHour.innerHTML += `<option value="${i}">${i}</option>`
+    alertHour.innerHTML += "<option value=\""+ i + "\">" + i + "</option>";
   }
 }
 
 for (let i = 0; i < 60; i++) {
   if (i < 10) {
-    alertMinute.innerHTML += `<option value="0${i}">0${i}</option>`
+    alertMinute.innerHTML += "<option value=\"0"+ i + "\">0" + i + "</option>";
   } else {
-    alertMinute.innerHTML += `<option value="${i}">${i}</option>`
+    alertMinute.innerHTML += "<option value=\""+ i + "\">" + i + "</option>";
   }
-}s
+}
