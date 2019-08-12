@@ -1,6 +1,7 @@
 package com.project.web;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.util.List;
 
@@ -14,6 +15,10 @@ import javax.servlet.http.HttpSession;
 
 import com.project.dao.*;
 import com.project.model.*;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 /**
  * Servlet implementation class DashboardServlet
@@ -70,6 +75,10 @@ public class DashboardServlet extends HttpServlet {
 			String dbname = (String) session.getAttribute("current_dbname");
 			String photoPath = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/dataimages/" + dbname + "/";
 			request.setAttribute("realPath", photoPath);
+			doSocket();
+			socketToMedicine();
+			socketToDoor();
+			socketToFall();
 			request.getRequestDispatcher("dashboard.jsp").forward(request, response);
 		} else {
 			response.sendRedirect(request.getContextPath());
@@ -126,4 +135,75 @@ public class DashboardServlet extends HttpServlet {
 		request.setAttribute("listThreeDoorRecords", listDoorRecords);
 	}
 
+	protected void doSocket() {
+		try {
+			io.socket.client.Socket socket ;
+			socket = IO.socket("http://192.168.21.54:3000");
+			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+			  @Override
+			  public void call(Object... args) {
+			    socket.emit("connection", "hello from the other side");
+			    System.out.print("Connected to ubuntu test env");
+			  }
+			});
+			socket.connect();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	protected void socketToFall() {
+		try {
+			io.socket.client.Socket socket ;
+			socket = IO.socket("http://192.168.21.37:3000");
+			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+			  @Override
+			  public void call(Object... args) {
+			    socket.emit("connection", "hello from the other side");
+			    System.out.print("Connected to Fall detection Rpi");
+			  }
+			});
+			socket.connect();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	protected void socketToDoor() {
+		try {
+			io.socket.client.Socket socket ;
+			socket = IO.socket("http://192.168.21.36:3000");
+			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+			  @Override
+			  public void call(Object... args) {
+			    socket.emit("connection", "hello from the other side");
+			    System.out.print("Connected to Door detection Rpi");
+			  }
+			});
+			socket.connect();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	protected void socketToMedicine() {
+		try {
+			io.socket.client.Socket socket ;
+			socket = IO.socket("http://192.168.21.35:3000");
+			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+			  @Override
+			  public void call(Object... args) {
+			    socket.emit("connection", "hello from the other side");
+			    System.out.print("Connected to Medicine alert Rpi");
+			  }
+			});
+			socket.connect();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
