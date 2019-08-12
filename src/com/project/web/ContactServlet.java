@@ -41,8 +41,9 @@ public class ContactServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String action = request.getServletPath();
-		ServletContext ctx = this.getServletContext();
-		Connection con = (Connection)ctx.getAttribute("current_db");
+//		ServletContext ctx = this.getServletContext();
+		HttpSession session = request.getSession();
+		Connection con = (Connection)session.getAttribute("current_db");
 		System.out.println("Connection: " + con);
 		try {
 			switch (action) {

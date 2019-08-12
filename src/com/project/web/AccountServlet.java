@@ -132,7 +132,7 @@ public class AccountServlet extends HttpServlet {
 			}
 			// Change dbconnection to current user
 			String dbname = email.substring(0, email.indexOf("@"));
-			Connection con = newDBConnection(dbname, ctx);
+			Connection con = newDBConnection(dbname, session);
 			try {
 				initDatabase(con);
 			} catch (SQLException e) {
@@ -154,7 +154,7 @@ public class AccountServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	private Connection newDBConnection (String dbname, ServletContext ctx) {
+	private Connection newDBConnection (String dbname, HttpSession session) {
 		String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 		String DB_URL = "jdbc:mysql://localhost:3306/test_" + dbname + "?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=CST&characterEncoding=utf8";
 		String USER = "root";
@@ -164,7 +164,7 @@ public class AccountServlet extends HttpServlet {
 		try {
     		Class.forName(JDBC_DRIVER);
     		con = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-    		ctx.setAttribute("current_db", con);
+    		session.setAttribute("current_db", con);
     	} catch(Exception e) {
     		e.printStackTrace();
     	}

@@ -63,7 +63,7 @@ public class DashboardServlet extends HttpServlet {
 			response.setCharacterEncoding("utf-8");
 //			String action = request.getServletPath();
 			ServletContext ctx = this.getServletContext();
-			Connection con = (Connection)ctx.getAttribute("current_db");
+			Connection con = (Connection)session.getAttribute("current_db");
 			grabMembers(request, response, con);
 			grabContact(request, response, con);
 			grabMedicine(request, response, con);

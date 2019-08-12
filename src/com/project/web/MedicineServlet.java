@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.project.dao.MedicineDAO;
 import com.project.model.Medicine;
@@ -44,8 +45,9 @@ public class MedicineServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		String action = request.getServletPath();
-		ServletContext ctx = this.getServletContext();
-		Connection con = (Connection)ctx.getAttribute("current_db");
+//		ServletContext ctx = this.getServletContext();
+		HttpSession session = request.getSession();
+		Connection con = (Connection)session.getAttribute("current_db");
 		System.out.println("Connection: " + con);
 		try {
 			switch (action) {

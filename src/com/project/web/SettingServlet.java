@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.project.dao.MedicineDAO;
 import com.project.dao.MemberDAO;
@@ -45,7 +46,8 @@ public class SettingServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String action = request.getServletPath();
 		ServletContext ctx = getServletContext();
-		Connection con = (Connection) ctx.getAttribute("current_db");
+		HttpSession session = request.getSession();
+		Connection con = (Connection) session.getAttribute("current_db");
 		try {
 			switch (action) {
 			case "/setting_account":

@@ -91,7 +91,7 @@ public class LoginServlet extends HttpServlet {
 				HttpSession session = request.getSession();
 				session.setAttribute("currentUser", user.getName());
 				session.setAttribute("current_dbname", dbname);
-				newDBConnection(dbname, ctx);
+				newDBConnection(dbname, session);
 				response.sendRedirect("dashboard");
 			} else {
 				System.out.println("login error");
@@ -104,7 +104,7 @@ public class LoginServlet extends HttpServlet {
 		
 	}
 	
-	private void newDBConnection (String dbname, ServletContext ctx) {
+	private void newDBConnection (String dbname, HttpSession session) {
 		String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 		String DB_URL = "jdbc:mysql://localhost:3306/test_" + dbname + "?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=CST";
 		String USER = "root";
@@ -114,7 +114,7 @@ public class LoginServlet extends HttpServlet {
 			System.out.println("Prepare to get another connection");
     		Class.forName(JDBC_DRIVER);
     		Connection con = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-    		ctx.setAttribute("current_db", con);
+    		session.setAttribute("current_db", con);
 //    		con.close();
     	} catch(Exception e) {
     		e.printStackTrace();
