@@ -57,8 +57,8 @@
             <label for="photo" class="col-md-3 col-sm-4 col-form-label">照片上傳：</label>
             <div class="col-md-9 col-sm-8">
               <div class="custom-file">
-                <input type="file" class="custom-file-input" id="customFile" name="uploadFile">
-                <label class="custom-file-label" for="customFile"></label>
+                <input type="file" class="custom-file-input" id="customFile" name="uploadFile" value="">
+                <label class="custom-file-label" for="customFile" id="fileField">請選擇一張清晰的正面照片</label>
               </div>
             </div>
           </div>
@@ -109,6 +109,14 @@
       document.memberForm.action = "new_member"
       document.memberForm.submit()
     }
+    
+    const fileField = document.getElementById('fileField');
+    const customFile = document.getElementById('customFile');
+    customFile.addEventListener('change', function() {
+    	let pathStr = customFile.value;
+    	console.log(pathStr.substring(pathStr.lastIndexOf("\\")+1));
+    	fileField.innerHTML = pathStr.substring(pathStr.lastIndexOf("\\")+1)
+    })
   </script>
 </body>
 

@@ -50,25 +50,30 @@ public class DashboardServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.setContentType("text/html;charset=utf-8");
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("utf-8");
-//		String action = request.getServletPath();
-		ServletContext ctx = this.getServletContext();
-		Connection con = (Connection)ctx.getAttribute("current_db");
-		grabMembers(request, response, con);
-		grabContact(request, response, con);
-		grabMedicine(request, response, con);
-		grabAllMedicineRecords(request, response, con);
-		grabMedicineRecords(request, response, con);
-		grabFallRecord(request, response, con);
-		grabAllDoorRecords(request, response, con);
-		grabDoorRecords(request, response, con);
+
 		HttpSession session = request.getSession();
-		String dbname = (String) session.getAttribute("current_dbname");
-		String photoPath = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/dataimages/" + dbname + "/";
-		request.setAttribute("realPath", photoPath);
-		request.getRequestDispatcher("dashboard.jsp").forward(request, response);
+		if(session.getAttribute("currentUser") != null) {
+			response.setContentType("text/html;charset=utf-8");
+			request.setCharacterEncoding("utf-8");
+			response.setCharacterEncoding("utf-8");
+//			String action = request.getServletPath();
+			ServletContext ctx = this.getServletContext();
+			Connection con = (Connection)ctx.getAttribute("current_db");
+			grabMembers(request, response, con);
+			grabContact(request, response, con);
+			grabMedicine(request, response, con);
+			grabAllMedicineRecords(request, response, con);
+			grabMedicineRecords(request, response, con);
+			grabFallRecord(request, response, con);
+			grabAllDoorRecords(request, response, con);
+			grabDoorRecords(request, response, con);
+			String dbname = (String) session.getAttribute("current_dbname");
+			String photoPath = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/dataimages/" + dbname + "/";
+			request.setAttribute("realPath", photoPath);
+			request.getRequestDispatcher("dashboard.jsp").forward(request, response);
+		} else {
+			response.sendRedirect(request.getContextPath());
+		}
 	}
 
 	/**

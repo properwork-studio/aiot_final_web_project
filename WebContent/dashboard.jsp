@@ -80,27 +80,32 @@
             </div>
             <div class="card-body py-0 mb-5">
               <ul class="record__list px-0 d-flex flex-column">
-              	<c:forEach var="medicineRecord" items="${listFiveMedicineRecords}">
-              		<li class="record__list-item row mx-0">
-	                  <div class="col-sm-2 px-0">
-	                    <h6 class="custom-heading">${medicineRecord.memberName}</h6>
-	                  </div>
-	                  <div class="col-sm-4">
-	                    <p class="custom-heading mb-0">${medicineRecord.timeStamp}</p>
-	                  </div>
-	                  <div class="col-sm-6 d-flex justify-content-between px-0">
-	                    <p class="custom-heading mb-0">${medicineRecord.medicine}</p>
-	                    <c:if test="${medicineRecord.memberCondition.equals(\"1\")}">
-	                    	<span class="record__list-icon record__list-icon--green"><i class="fa fa-check"
-	                        aria-hidden="true"></i></span>
-	                    </c:if>
-	                    <c:if test="${medicineRecord.memberCondition.equals(\"0\")}">
-	                    	<span class="record__list-icon record__list-icon--red"><i class="fa fa-times"
-	                        aria-hidden="true"></i></span>
-	                    </c:if>
-	                  </div>
-	                </li>
-              	</c:forEach>
+              	<c:if test="${listFiveMedicineRecords.size() != 0}">
+              		<c:forEach var="medicineRecord" items="${listFiveMedicineRecords}">
+	              		<li class="record__list-item row mx-0">
+		                  <div class="col-sm-2 px-0">
+		                    <h6 class="custom-heading">${medicineRecord.memberName}</h6>
+		                  </div>
+		                  <div class="col-sm-4">
+		                    <p class="custom-heading mb-0">${medicineRecord.timeStamp}</p>
+		                  </div>
+		                  <div class="col-sm-6 d-flex justify-content-between px-0">
+		                    <p class="custom-heading mb-0">${medicineRecord.medicine}</p>
+		                    <c:if test="${medicineRecord.memberCondition.equals(\"1\")}">
+		                    	<span class="record__list-icon record__list-icon--green"><i class="fa fa-check"
+		                        aria-hidden="true"></i></span>
+		                    </c:if>
+		                    <c:if test="${medicineRecord.memberCondition.equals(\"0\")}">
+		                    	<span class="record__list-icon record__list-icon--red"><i class="fa fa-times"
+		                        aria-hidden="true"></i></span>
+		                    </c:if>
+		                  </div>
+		                </li>
+	              	</c:forEach>
+              	</c:if>
+              	<c:if test="${listFiveMedicineRecords.size() == 0}">
+              		<h5 class="my-5 text-center">目前暫無紀錄</h5>
+              	</c:if>
                 <a href="#" id="medicineRecordBtn" class="detailBtn align-self-end mt-3">顯示完整紀錄</a>
               </ul>
               <a href="#" class="submitBtn editBtn" id="editMedicineBtn">用藥設定</a>
@@ -137,31 +142,36 @@
             </div>
             <div class="card-body py-0 mb-5">
               <ul class="record__list px-0 d-flex flex-column">
-              	<c:forEach var="doorRecord" items="${listThreeDoorRecords}">
-              		<li class="record__list-item row mx-0">
-	                  <div class="col-sm-3 px-0">
-	                    <h6 class="custom-heading">${doorRecord.memberName}</h6>
-	                  </div>
-	                  <div class="col-sm-7">
-	                    <p class="custom-heading mb-0">${doorRecord.timeStamp}</p>
-	                  </div>
-	                  <div class="col-sm-2 text-right px-0">
-	                  	<c:choose>
-	                  		<c:when test="${doorRecord.realFake.equals(\"1\")}">
-	                  			<c:if test="${doorRecord.condition.equals(\"in\")}">
-	                  				<p class="custom-heading mb-0 pr-2">進門</p>
-	                  			</c:if>
-	                  			<c:if test="${doorRecord.condition.equals(\"out\")}">
-	                  				<p class="custom-heading mb-0 pr-2">出門</p>
-	                  			</c:if>
-	                  		</c:when>
-	                  		<c:otherwise>
-	                  			<p class="custom-heading mb-0 pr-2">異常</p>
-	                  		</c:otherwise>
-	                  	</c:choose>
-	                  </div>
-	                </li>
-              	</c:forEach>
+              	<c:if test="${listThreeDoorRecords.size() != 0}">
+              		<c:forEach var="doorRecord" items="${listThreeDoorRecords}">
+	              		<li class="record__list-item row mx-0">
+		                  <div class="col-sm-3 px-0">
+		                    <h6 class="custom-heading">${doorRecord.memberName}</h6>
+		                  </div>
+		                  <div class="col-sm-7">
+		                    <p class="custom-heading mb-0">${doorRecord.timeStamp}</p>
+		                  </div>
+		                  <div class="col-sm-2 text-right px-0">
+		                  	<c:choose>
+		                  		<c:when test="${doorRecord.realFake.equals(\"1\")}">
+		                  			<c:if test="${doorRecord.condition.equals(\"in\")}">
+		                  				<p class="custom-heading mb-0 pr-2">進門</p>
+		                  			</c:if>
+		                  			<c:if test="${doorRecord.condition.equals(\"out\")}">
+		                  				<p class="custom-heading mb-0 pr-2">出門</p>
+		                  			</c:if>
+		                  		</c:when>
+		                  		<c:otherwise>
+		                  			<p class="custom-heading mb-0 pr-2">異常</p>
+		                  		</c:otherwise>
+		                  	</c:choose>
+		                  </div>
+		                </li>
+	              	</c:forEach>
+              	</c:if>
+              	<c:if test="${listThreeDoorRecords.size() == 0}">
+              		<h5 class="my-5 text-center">目前暫無紀錄</h5>
+              	</c:if>
                 <a href="#" id="doorRecordBtn" class="detailBtn align-self-end mt-3">顯示完整紀錄</a>
               </ul>
             </div>
