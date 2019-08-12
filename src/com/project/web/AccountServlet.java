@@ -84,6 +84,14 @@ public class AccountServlet extends HttpServlet {
 			"    room varchar(100),\n" + 
 			"	PRIMARY KEY (record_id)\n" + 
 			") DEFAULT CHARSET=utf8;";
+	private static final String CREATE_ENVIRONMENT_TABLE = "create table environment (\n" + 
+			"    record_id int not null AUTO_INCREMENT,\n" + 
+			"    time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP,\n" + 
+			"    temperature varchar(100),\n" + 
+			"    humidity varchar(100),\n" + 
+			"    co varchar(100),\n" + 
+			"	PRIMARY KEY (record_id)\n" + 
+			") DEFAULT CHARSET=utf8;";
 	private static final String INSERT_FALLRECORD_SQL = "INSERT INTO fallRecords" + "  (fall_condition) VALUES "
 			+ " (\"safe\");";
 	
@@ -181,6 +189,9 @@ public class AccountServlet extends HttpServlet {
 //			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 			preparedStatement = con.prepareStatement(CREATE_FALLRECORD_TABLE);
+//			System.out.println(preparedStatement);
+			preparedStatement.executeUpdate();
+			preparedStatement = con.prepareStatement(CREATE_ENVIRONMENT_TABLE);
 //			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 			preparedStatement = con.prepareStatement(INSERT_FALLRECORD_SQL);
