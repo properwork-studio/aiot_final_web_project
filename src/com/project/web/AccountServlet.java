@@ -36,7 +36,7 @@ public class AccountServlet extends HttpServlet {
 			"    id_number varchar(255) not null,\n" + 
 			"    member_photo varchar(255) not null,\n" + 
 			"	PRIMARY KEY (member_id)\n" + 
-			");";
+			") DEFAULT CHARSET=utf8;";
 	private static final String CREATE_CONTACT_TABLE = "create table contact (\n" + 
 			"    contact_id int not null AUTO_INCREMENT,\n" + 
 			"    contact_name varchar(255) not null,\n" + 
@@ -44,7 +44,7 @@ public class AccountServlet extends HttpServlet {
 			"    email varchar(255) not null,\n" + 
 			"    phone_number varchar(255) not null,\n" + 
 			"	PRIMARY KEY (contact_id)\n" + 
-			");";
+			") DEFAULT CHARSET=utf8;";
 	private static final String CREATE_MEDICINE_TABLE = "create table medicines (\n" + 
 			"    rule_id int not null AUTO_INCREMENT,\n" + 
 			"    member_name varchar(255) not null,\n" + 
@@ -60,7 +60,7 @@ public class AccountServlet extends HttpServlet {
 			"    medicine_4 varchar(255),\n" + 
 			"    medicine_5 varchar(255),\n" + 
 			"	PRIMARY KEY (rule_id)\n" + 
-			");";
+			") DEFAULT CHARSET=utf8;";
 	private static final String CREATE_MEDICINERECORD_TABLE = "create table medicineRecords (\n" + 
 			"    record_id int not null AUTO_INCREMENT,\n" + 
 			"    member_name varchar(255) not null,\n" + 
@@ -68,7 +68,7 @@ public class AccountServlet extends HttpServlet {
 			"    medicine varchar(255) not null,\n" + 
 			"    member_condition varchar(255) not null,\n" + 
 			"	PRIMARY KEY (record_id)\n" + 
-			");";
+			") DEFAULT CHARSET=utf8;";
 	private static final String CREATE_DOORRECORD_TABLE = "create table doorRecords (\n" + 
 			"    record_id int not null AUTO_INCREMENT,\n" + 
 			"    member_name varchar(255) not null,\n" + 
@@ -76,14 +76,14 @@ public class AccountServlet extends HttpServlet {
 			"    door_condition varchar(255) not null,\n" + 
 			"    real_fake varchar(100),\n" + 
 			"	PRIMARY KEY (record_id)\n" + 
-			");";
+			") DEFAULT CHARSET=utf8;";
 	private static final String CREATE_FALLRECORD_TABLE = "create table fallRecords (\n" + 
 			"    record_id int not null AUTO_INCREMENT,\n" + 
 			"    time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON update CURRENT_TIMESTAMP,\n" + 
 			"    fall_condition varchar(255) not null,\n" + 
 			"    room varchar(100),\n" + 
 			"	PRIMARY KEY (record_id)\n" + 
-			");";
+			") DEFAULT CHARSET=utf8;";
 	private static final String INSERT_FALLRECORD_SQL = "INSERT INTO fallRecords" + "  (fall_condition) VALUES "
 			+ " (\"safe\");";
 	
