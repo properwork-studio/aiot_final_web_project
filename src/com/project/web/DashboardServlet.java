@@ -192,7 +192,7 @@ public class DashboardServlet extends HttpServlet {
 	protected void socketToMedicine() {
 		try {
 			io.socket.client.Socket socket ;
-			socket = IO.socket("http://192.168.21.35:3000");
+			socket = IO.socket("http://192.168.21.38:3000");
 			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 			  @Override
 			  public void call(Object... args) {
