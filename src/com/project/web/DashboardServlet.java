@@ -78,10 +78,7 @@ public class DashboardServlet extends HttpServlet {
 			String dbname = (String) session.getAttribute("current_dbname");
 			String photoPath = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/dataimages/" + dbname + "/";
 			request.setAttribute("realPath", photoPath);
-			doSocket(dbname);
-//			socketToMedicine();
-//			socketToDoor();
-//			socketToFall();
+//			doSocket(dbname);
 			request.getRequestDispatcher("dashboard.jsp").forward(request, response);
 		} else {
 			response.sendRedirect(request.getContextPath());

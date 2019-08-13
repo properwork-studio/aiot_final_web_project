@@ -75,6 +75,7 @@ public class MedicineServlet extends HttpServlet {
 				break;
 			case "/edit_medicine":
 				updateMedicine(request, response, con);
+				socketToMedicineUpdate(dbname);
 				request.getRequestDispatcher("dashboard?open_overlay=true").forward(request, response);
 				break;
 			case "/init_edit_medicine":
@@ -83,6 +84,7 @@ public class MedicineServlet extends HttpServlet {
 				break;
 			case "/delete_medicine":
 				deleteMedicine(request, response, con);
+				socketToMedicineUpdate(dbname);
 				request.getRequestDispatcher("dashboard?open_overlay=true").forward(request, response);
 				// Delete medicine from dashboard
 				break;
@@ -205,7 +207,27 @@ public class MedicineServlet extends HttpServlet {
 			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 			  @Override
 			  public void call(Object... args) {
-			    socket.emit("connection", "hello from the other side");
+				String argument = "-s 192.168.21.54 -u user -p lomo81818 -d test_" + dbname;
+			    socket.emit("wakeup", argument);
+			    System.out.print("Connected to Medicine alert Rpi");
+			  }
+			});
+			socket.connect();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	protected void socketToMedicineUpdate(String dbname) {
+		try {
+			io.socket.client.Socket socket ;
+			socket = IO.socket("http://192.168.21.38:3000");
+			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+			  @Override
+			  public void call(Object... args) {
+//				String argument = "-s 192.168.21.54 -u user -p lomo81818 -d test_" + dbname;
+			    socket.emit("changedb", "There is some changes in database");
 			    System.out.print("Connected to Medicine alert Rpi");
 			  }
 			});

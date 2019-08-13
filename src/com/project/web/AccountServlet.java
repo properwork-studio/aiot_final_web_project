@@ -95,6 +95,10 @@ public class AccountServlet extends HttpServlet {
 	private static final String INSERT_FALLRECORD_SQL = "INSERT INTO fallRecords" + "  (fall_condition) VALUES "
 			+ " (\"safe\");";
 	
+	// Just for Now
+	private static final String INSERT_ENV_SQL = "INSERT INTO environment" + "  (temperature, humidity, co) VALUES "
+			+ " (\"28\",\"63\",\"LOW\");";
+	
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -157,7 +161,7 @@ public class AccountServlet extends HttpServlet {
 	private Connection newDBConnection (String dbname, HttpSession session) {
 		String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 		String DB_URL = "jdbc:mysql://localhost:3306/test_" + dbname + "?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=CST&characterEncoding=utf8";
-		String USER = "root";
+		String USER = "user";
 		String PASSWORD = "lomo81818";
 		
 		Connection con = null;
@@ -195,6 +199,9 @@ public class AccountServlet extends HttpServlet {
 //			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 			preparedStatement = con.prepareStatement(INSERT_FALLRECORD_SQL);
+//			System.out.println(preparedStatement);
+			preparedStatement.executeUpdate();
+			preparedStatement = con.prepareStatement(INSERT_ENV_SQL);
 //			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
