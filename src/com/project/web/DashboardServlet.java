@@ -146,7 +146,6 @@ public class DashboardServlet extends HttpServlet {
 	}
 
 	protected void doSocket(String dbname) {
-		String args = "-s 192.168.21.54 -u user -p lomo81818 -d " + dbname;
 		try {
 			io.socket.client.Socket socket ;
 			socket = IO.socket("http://192.168.21.54:3000");
@@ -157,24 +156,6 @@ public class DashboardServlet extends HttpServlet {
 			    socket.emit("wakeup", argument);
 //			    socket.send(args);
 			    System.out.print("Connected to ubuntu test env");
-			  }
-			});
-			socket.connect();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	protected void socketToMedicine() {
-		try {
-			io.socket.client.Socket socket ;
-			socket = IO.socket("http://192.168.21.38:3000");
-			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-			  @Override
-			  public void call(Object... args) {
-			    socket.emit("connection", "hello from the other side");
-			    System.out.print("Connected to Medicine alert Rpi");
 			  }
 			});
 			socket.connect();
