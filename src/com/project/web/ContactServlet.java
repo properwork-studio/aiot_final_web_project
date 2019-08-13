@@ -1,6 +1,7 @@
 package com.project.web;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -14,6 +15,10 @@ import javax.servlet.http.HttpSession;
 
 import com.project.dao.ContactDAO;
 import com.project.model.Contact;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 /**
  * Servlet implementation class ContactServlet
@@ -78,6 +83,11 @@ public class ContactServlet extends HttpServlet {
 		// Putting data into database
 		Contact newContact = new Contact(contactName, relationship, phoneNumber, contactEmail);
 		contactDAO.insertContact(con, newContact);
+		HttpSession session = request.getSession();
+		String dbname = (String) session.getAttribute("current_dbname");
+//		socketToFall(dbname);
+//		socketToDoor(dbname);
+//		socketToEnv(dbname);
 		response.sendRedirect("setting_medicines");
 	}
 	
@@ -93,4 +103,57 @@ public class ContactServlet extends HttpServlet {
 		response.sendRedirect("dashboard");
 	}
 
+	protected void socketToFall(String dbname) {
+		try {
+			io.socket.client.Socket socket ;
+			socket = IO.socket("http://192.168.21.37:3000");
+			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+			  @Override
+			  public void call(Object... args) {
+			    socket.emit("connection", "hello from the other side");
+			    System.out.print("Connected to Fall detection Rpi");
+			  }
+			});
+			socket.connect();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	protected void socketToDoor(String dbname) {
+		try {
+			io.socket.client.Socket socket ;
+			socket = IO.socket("http://192.168.21.36:3000");
+			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+			  @Override
+			  public void call(Object... args) {
+			    socket.emit("connection", "hello from the other side");
+			    System.out.print("Connected to Door detection Rpi");
+			  }
+			});
+			socket.connect();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	protected void socketToEnv(String dbname) {
+		try {
+			io.socket.client.Socket socket ;
+			socket = IO.socket("http://192.168.21.36:3000");
+			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+			  @Override
+			  public void call(Object... args) {
+			    socket.emit("connection", "hello from the other side");
+			    System.out.print("Connected to Door detection Rpi");
+			  }
+			});
+			socket.connect();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

@@ -32,6 +32,7 @@ public class DashboardServlet extends HttpServlet {
 	private MedicineRecordDAO medicineRecordDAO;
 	private DoorRecordDAO doorRecordDAO;
 	private FallRecordDAO fallRecordDAO;
+	private EnvironmentDAO environmentDAO;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -48,6 +49,7 @@ public class DashboardServlet extends HttpServlet {
     	medicineRecordDAO = new MedicineRecordDAO();
     	doorRecordDAO = new DoorRecordDAO();
     	fallRecordDAO = new FallRecordDAO();
+    	environmentDAO = new EnvironmentDAO();
     }
 
 	/**
@@ -72,13 +74,14 @@ public class DashboardServlet extends HttpServlet {
 			grabFallRecord(request, response, con);
 			grabAllDoorRecords(request, response, con);
 			grabDoorRecords(request, response, con);
+			grabEnvRecords(request, response, con);
 			String dbname = (String) session.getAttribute("current_dbname");
 			String photoPath = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/dataimages/" + dbname + "/";
 			request.setAttribute("realPath", photoPath);
-			doSocket();
-			socketToMedicine();
-			socketToDoor();
-			socketToFall();
+			doSocket(dbname);
+//			socketToMedicine();
+//			socketToDoor();
+//			socketToFall();
 			request.getRequestDispatcher("dashboard.jsp").forward(request, response);
 		} else {
 			response.sendRedirect(request.getContextPath());
@@ -134,52 +137,26 @@ public class DashboardServlet extends HttpServlet {
 		List<DoorRecord> listDoorRecords = doorRecordDAO.selectThreeRecords(con);
 		request.setAttribute("listThreeDoorRecords", listDoorRecords);
 	}
+	
+	protected void grabEnvRecords(HttpServletRequest request, HttpServletResponse response, Connection con) {
+		List<Environment> listEnvRecords = environmentDAO.selectAllRecords(con);
+		request.setAttribute("listEnvRecords", listEnvRecords);
+		Environment lastEnv = listEnvRecords.get(0);
+		request.setAttribute("latestEnv", lastEnv);
+	}
 
-	protected void doSocket() {
+	protected void doSocket(String dbname) {
+		String args = "-s 192.168.21.54 -u user -p lomo81818 -d " + dbname;
 		try {
 			io.socket.client.Socket socket ;
 			socket = IO.socket("http://192.168.21.54:3000");
 			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 			  @Override
 			  public void call(Object... args) {
-			    socket.emit("connection", "hello from the other side");
+			    String argument = "-s 192.168.21.54 -u user -p lomo81818 -d test_" + dbname;
+			    socket.emit("wakeup", argument);
+//			    socket.send(args);
 			    System.out.print("Connected to ubuntu test env");
-			  }
-			});
-			socket.connect();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	protected void socketToFall() {
-		try {
-			io.socket.client.Socket socket ;
-			socket = IO.socket("http://192.168.21.37:3000");
-			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-			  @Override
-			  public void call(Object... args) {
-			    socket.emit("connection", "hello from the other side");
-			    System.out.print("Connected to Fall detection Rpi");
-			  }
-			});
-			socket.connect();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	protected void socketToDoor() {
-		try {
-			io.socket.client.Socket socket ;
-			socket = IO.socket("http://192.168.21.36:3000");
-			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-			  @Override
-			  public void call(Object... args) {
-			    socket.emit("connection", "hello from the other side");
-			    System.out.print("Connected to Door detection Rpi");
 			  }
 			});
 			socket.connect();

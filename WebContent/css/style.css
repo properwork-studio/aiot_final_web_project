@@ -23,6 +23,12 @@ ul {
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase; }
+  .custom-heading--red {
+    background-image: linear-gradient(to left, #c62828, #dc3545);
+    color: transparent;
+    -webkit-background-clip: text;
+    font-weight: 700;
+    letter-spacing: 2px; }
 
 .custom-text {
   color: #999;
@@ -153,6 +159,23 @@ ul {
     background-color: #666;
     color: #fff;
     text-decoration: none; }
+    
+.histBtn {
+  border: 1px solid #666;
+  display: inline-block;
+  width: 120px;
+  text-align: center;
+  line-height: 30px;
+  border-radius: 100px;
+  margin-top: 20px;
+  align-self: flex-end;
+  color: #666;
+  font-size: 14px;
+  transition: all .3s; }
+  .histBtn:hover {
+    background-color: #666;
+    color: #fff;
+    text-decoration: none; }
 
 .init__step .current {
   color: #55c57a;
@@ -246,6 +269,9 @@ header {
     min-height: 110px; }
   .dashboard__door {
     height: calc(70% - 15px); }
+  .dashboard__environment {
+    height: 100%;
+    margin-bottom: 10px; }
 
 .member__item {
 	border-left: 1px solid #dee2e6;
@@ -294,7 +320,7 @@ header {
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.85);
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
@@ -310,6 +336,10 @@ header {
   max-width: 1100px;
   box-sizing: border-box;
   transition: all .3s; }
+  
+.overlay__bottom {
+  top: 55%;
+  transform: translate(-50%, -45%); }
 
 .overlay__contact {
   display: none;
@@ -330,3 +360,15 @@ header {
   display: none;
   width: 50%;
   max-width: 800px; }
+  
+.overlay__temperature, .overlay__humidity, .overlay__co {
+  display: none;
+  width: 70%; }
+
+.chart__temperature .ct-series-a .ct-line,
+.chart__temperature .ct-series-a .ct-point {
+  stroke: #c62828; }
+
+.chart__humidity .ct-series-a .ct-line,
+.chart__humidity .ct-series-a .ct-point {
+  stroke: #2962ff; }

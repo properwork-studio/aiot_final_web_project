@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="com.project.model.*" %>
+<%@ page import="com.project.model.*, java.util.List" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+  <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -72,7 +74,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-7 mt-5">
+        <div class="col-md-7 mt-4">
           <div class="card dashboard__card py-3 px-4 dashboard__medicine-record">
             <div class="card-head p-2 border-bottom">
               <h5 class="custom-heading mb-0">智慧藥箱｜用藥紀錄</h5>
@@ -112,7 +114,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-5 mt-5">
+        <div class="col-md-5 mt-4">
           <div class="card dashboard__card dashboard__fall">
             <div class="card-body py-4 d-flex align-items-center">
               <div class="col-sm-4">
@@ -174,6 +176,53 @@
               	</c:if>
                 <a href="#" id="doorRecordBtn" class="detailBtn align-self-end mt-3">顯示完整紀錄</a>
               </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mt-4">
+          <div class="card dashboard__card dashboard__environment">
+            <div class="card-body py-4 d-flex align-items-center">
+              <div class="col-sm-6">
+                <h5 class="custom-heading text-center">現在溫度</h5>
+                <h5 class="custom-heading text-center">Room<br>Temperature</h5>
+              </div>
+              <div class="col-sm-6 border-left py-1 pl-4 ml-1">
+                <h2 class="text-center custom-heading--green mb-0">${latestEnv.temperature} &#8451;</h2>
+                <a href="#" class="histBtn" id="tempHistory">顯示歷史紀錄</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mt-4">
+          <div class="card dashboard__card dashboard__environment">
+            <div class="card-body py-4 d-flex align-items-center">
+              <div class="col-sm-6">
+                <h5 class="custom-heading text-center">現在濕度</h5>
+                <h5 class="custom-heading text-center">Room<br>Humidity</h5>
+              </div>
+              <div class="col-sm-6 border-left py-1 pl-4 ml-1">
+                <h2 class="text-center custom-heading--green mb-0">${latestEnv.humidity}%</h2>
+                <a href="#" class="histBtn" id="humidHistory">顯示歷史紀錄</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mt-4">
+          <div class="card dashboard__card dashboard__environment">
+            <div class="card-body py-4 d-flex align-items-center">
+              <div class="col-sm-6">
+                <h5 class="custom-heading text-center">一氧化碳</h5>
+                <h5 class="custom-heading text-center">CO<br>concentration</h5>
+              </div>
+              <div class="col-sm-6 border-left py-4 pl-4 ml-1">
+              	<c:if test="${latestEnv.co.equals(\"LOW\")}">
+              		<h2 class="text-center custom-heading--green mb-0">${latestEnv.co}</h2>
+              	</c:if>
+              	<c:if test="${latestEnv.co.equals(\"HIGH\")}">
+              		<h2 class="text-center custom-heading--red mb-0">${latestEnv.co}</h2>
+              	</c:if>
+                <!-- <a href="#" class="histBtn" id="coHistory">顯示歷史紀錄</a> -->
+              </div>
             </div>
           </div>
         </div>
@@ -435,6 +484,39 @@
       </div>
     </div>
   </div>
+  
+  <div class="overlay__box overlay__bottom overlay__temperature">
+    <div class="card card__medicine">
+      <div class="card-body card-body__medicine">
+        <h3 class="h4 text-center py-3 custom-heading">溫度歷史紀錄</h3>
+        <a href="#" class="closingBtn">X</a>
+        <hr class="mt-3">
+        <div class="chart__temperature d-flex justify-content-center"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay__box overlay__bottom overlay__humidity">
+    <div class="card card__medicine">
+      <div class="card-body card-body__medicine">
+        <h3 class="h4 text-center py-3 custom-heading">濕度歷史紀錄</h3>
+        <a href="#" class="closingBtn">X</a>
+        <hr class="mt-3">
+        <div class="chart__humidity d-flex justify-content-center"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay__box overlay__bottom overlay__co">
+    <div class="card card__medicine">
+      <div class="card-body card-body__medicine">
+        <h3 class="h4 text-center py-3 custom-heading">一氧化碳濃度紀錄</h3>
+        <a href="#" class="closingBtn">X</a>
+        <hr class="mt-3">
+        <div class="chart__co d-flex justify-content-center"></div>
+      </div>
+    </div>
+  </div>
 
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -460,6 +542,49 @@
 		  </script>
 	  <% }
   } %>
+  
+  <c:if test="${request.getAttribute(\"listEnvRecords\").size() != 0}">
+  	<script>
+	    let tempData = []
+	    let humidData = []
+    </script>  
+	    <c:forEach var="envRecord" items="${listEnvRecords}">
+	    	<script>
+	    		tempData.push(${envRecord.temperature});
+	    		humidData.push(${envRecord.humidity});
+	    	</script>
+	    </c:forEach>
+	<script>  
+	    var dataTemp = {
+	      series: [
+	        tempData
+	      ]
+	    };
+	    
+	    var options = {
+	      width: 960,
+	      height: 350,
+	      low: 18,
+	      lineSmooth: Chartist.Interpolation.cardinal({
+	        tension: 0.2
+	      }),
+	      fullWidth: true,
+	      chartPadding: {
+	        right: 40
+	      }
+	    };
+	
+	    var dataHumid = {
+	        series: [
+	          humidData
+	        ]
+	      };
+	
+	    new Chartist.Line('.chart__temperature', dataTemp, options);
+	    new Chartist.Line('.chart__humidity', dataHumid, options);
+	    // new Chartist.Line('.chart__co', data, options);
+	  </script>
+  </c:if>
 </body>
 
 </html>

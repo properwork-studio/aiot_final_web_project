@@ -2,6 +2,7 @@ package com.project.web;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -15,6 +16,10 @@ import javax.servlet.http.HttpSession;
 
 import com.project.dao.MedicineDAO;
 import com.project.model.Medicine;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 /**
  * Servlet implementation class MedicineServlet
@@ -48,6 +53,7 @@ public class MedicineServlet extends HttpServlet {
 //		ServletContext ctx = this.getServletContext();
 		HttpSession session = request.getSession();
 		Connection con = (Connection)session.getAttribute("current_db");
+		String dbname = (String) session.getAttribute("current_dbname");
 		System.out.println("Connection: " + con);
 		try {
 			switch (action) {
@@ -63,6 +69,7 @@ public class MedicineServlet extends HttpServlet {
 				break;
 			case "/init_medicine":
 //				addNewMedicine(request, response, con);
+				socketToMedicine(dbname);
 				response.sendRedirect("dashboard");
 				// init 到dashboard
 				break;
@@ -189,5 +196,23 @@ public class MedicineServlet extends HttpServlet {
 			medicine = new String(medicine.getBytes("utf-8"), "utf-8");
 		}
 		return medicine;
+	}
+	
+	protected void socketToMedicine(String dbname) {
+		try {
+			io.socket.client.Socket socket ;
+			socket = IO.socket("http://192.168.21.38:3000");
+			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+			  @Override
+			  public void call(Object... args) {
+			    socket.emit("connection", "hello from the other side");
+			    System.out.print("Connected to Medicine alert Rpi");
+			  }
+			});
+			socket.connect();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
