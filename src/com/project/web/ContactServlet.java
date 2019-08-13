@@ -107,14 +107,9 @@ public class ContactServlet extends HttpServlet {
 		try {
 			io.socket.client.Socket socket ;
 			socket = IO.socket("http://192.168.21.37:3000");
-			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-			  @Override
-			  public void call(Object... args) {
-			    socket.emit("connection", "hello from the other side");
-			    System.out.print("Connected to Fall detection Rpi");
-			  }
-			});
 			socket.connect();
+			String argument = "-s 192.168.21.54 -u user -p lomo81818 -d test_" + dbname;
+			socket.emit("wakeup", argument);
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -125,14 +120,9 @@ public class ContactServlet extends HttpServlet {
 		try {
 			io.socket.client.Socket socket ;
 			socket = IO.socket("http://192.168.21.36:3000");
-			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-			  @Override
-			  public void call(Object... args) {
-			    socket.emit("connection", "hello from the other side");
-			    System.out.print("Connected to Door detection Rpi");
-			  }
-			});
 			socket.connect();
+			String argument = "-s 192.168.21.54 -u user -p lomo81818 -d test_" + dbname;
+			socket.emit("wakeup", argument);
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -143,14 +133,9 @@ public class ContactServlet extends HttpServlet {
 		try {
 			io.socket.client.Socket socket ;
 			socket = IO.socket("http://192.168.21.36:3000");
-			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-			  @Override
-			  public void call(Object... args) {
-			    socket.emit("connection", "hello from the other side");
-			    System.out.print("Connected to Door detection Rpi");
-			  }
-			});
 			socket.connect();
+			String argument = "-s 192.168.21.54 -u user -p lomo81818 -d test_" + dbname;
+			socket.emit("wakeup", argument);
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

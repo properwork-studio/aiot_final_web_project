@@ -64,7 +64,7 @@ public class DashboardServlet extends HttpServlet {
 			request.setCharacterEncoding("utf-8");
 			response.setCharacterEncoding("utf-8");
 //			String action = request.getServletPath();
-			ServletContext ctx = this.getServletContext();
+//			ServletContext ctx = this.getServletContext();
 			Connection con = (Connection)session.getAttribute("current_db");
 			grabMembers(request, response, con);
 			grabContact(request, response, con);
@@ -79,9 +79,6 @@ public class DashboardServlet extends HttpServlet {
 			String photoPath = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/dataimages/" + dbname + "/";
 			request.setAttribute("realPath", photoPath);
 			doSocket(dbname);
-//			socketToMedicine();
-//			socketToDoor();
-//			socketToFall();
 			request.getRequestDispatcher("dashboard.jsp").forward(request, response);
 		} else {
 			response.sendRedirect(request.getContextPath());
@@ -149,16 +146,16 @@ public class DashboardServlet extends HttpServlet {
 		try {
 			io.socket.client.Socket socket ;
 			socket = IO.socket("http://192.168.21.54:3000");
-			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-			  @Override
-			  public void call(Object... args) {
-			    String argument = "-s 192.168.21.54 -u user -p lomo81818 -d test_" + dbname;
-			    socket.emit("wakeup", argument);
-//			    socket.send(args);
-			    System.out.print("Connected to ubuntu test env");
-			  }
-			});
+//			socket.on(Socket.EVENT_MESSAGE, new Emitter.Listener() {
+//			  @Override
+//			  public void call(Object... args) {
+//			    // where socket emit was be
+//			    System.out.print("Connected to ubuntu test env");
+//			  }
+//			});
 			socket.connect();
+			String argument = "-s 192.168.21.54 -u user -p lomo81818 -d test_" + dbname;
+			socket.emit("wakeup", argument);
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

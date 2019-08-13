@@ -95,6 +95,10 @@ public class AccountServlet extends HttpServlet {
 	private static final String INSERT_FALLRECORD_SQL = "INSERT INTO fallRecords" + "  (fall_condition) VALUES "
 			+ " (\"safe\");";
 	
+	// Just for Now
+	private static final String INSERT_ENV_SQL = "INSERT INTO environment" + "  (temperature, humidity, co) VALUES "
+			+ " (\"28\",\"63\",\"LOW\");";
+	
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -195,6 +199,9 @@ public class AccountServlet extends HttpServlet {
 //			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 			preparedStatement = con.prepareStatement(INSERT_FALLRECORD_SQL);
+//			System.out.println(preparedStatement);
+			preparedStatement.executeUpdate();
+			preparedStatement = con.prepareStatement(INSERT_ENV_SQL);
 //			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 			preparedStatement.close();

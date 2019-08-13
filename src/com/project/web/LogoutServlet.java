@@ -1,6 +1,8 @@
 package com.project.web;
 
 import java.io.IOException;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,6 +33,9 @@ public class LogoutServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.invalidate();
 		response.sendRedirect(request.getContextPath());
+		// New Adding for Logout
+		ServletContext ctx = this.getServletContext();
+		ctx.setAttribute("users_db", null);
 	}
 
 	/**
