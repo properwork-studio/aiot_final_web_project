@@ -13,7 +13,7 @@ import com.project.model.User;
 public class UserDAO {
 	String url = "jdbc:mysql://localhost:3306/test_users?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=CST";
     String driver = "com.mysql.jdbc.Driver";
-    String userName = "root";
+    String userName = "user";
     String password = "lomo81818";
 
 	private static final String INSERT_USERS_SQL = "INSERT INTO Users" + "  (user_email, user_password, username, phone_number) VALUES "

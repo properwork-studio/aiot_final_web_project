@@ -215,10 +215,10 @@
                 <h5 class="custom-heading text-center">CO<br>concentration</h5>
               </div>
               <div class="col-sm-6 border-left py-4 pl-4 ml-1">
-              	<c:if test="${latestEnv.co.equals(\"LOW\")}">
+              	<c:if test="${latestEnv.co.equals(\"safe\")}">
               		<h2 class="text-center custom-heading--green mb-0">${latestEnv.co}</h2>
               	</c:if>
-              	<c:if test="${latestEnv.co.equals(\"HIGH\")}">
+              	<c:if test="${latestEnv.co.equals(\"danger\")}">
               		<h2 class="text-center custom-heading--red mb-0">${latestEnv.co}</h2>
               	</c:if>
                 <!-- <a href="#" class="histBtn" id="coHistory">顯示歷史紀錄</a> -->

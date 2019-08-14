@@ -59,6 +59,7 @@ public class MedicineServlet extends HttpServlet {
 			switch (action) {
 			case "/new_medicine":
 				addNewMedicine(request, response, con);
+				socketToMedicineUpdate(dbname);
 				request.getRequestDispatcher("dashboard?open_overlay=true").forward(request, response);
 				// 於dashboard 點選用藥設定要新增時
 				break;
@@ -214,6 +215,7 @@ public class MedicineServlet extends HttpServlet {
 			socket.connect();
 			String argument = "-s 192.168.21.54 -u user -p lomo81818 -d test_" + dbname;
 			socket.emit("wakeup", argument);
+			System.out.println("Connected to Medicine Rpi");
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -226,7 +228,7 @@ public class MedicineServlet extends HttpServlet {
 			socket = IO.socket("http://192.168.21.38:3000");
 			socket.connect();
 			socket.emit("changedb", "There is some changes in database");
-		    System.out.print("Connected to Medicine alert Rpi");
+		    System.out.print("Connected to Medicine to inform the changes in database");
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

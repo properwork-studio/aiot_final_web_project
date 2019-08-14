@@ -107,7 +107,7 @@ public class LoginServlet extends HttpServlet {
 	private void newDBConnection (String dbname, HttpSession session) {
 		String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 		String DB_URL = "jdbc:mysql://localhost:3306/test_" + dbname + "?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=CST";
-		String USER = "root";
+		String USER = "user";
 		String PASSWORD = "lomo81818";
 		
 		try {

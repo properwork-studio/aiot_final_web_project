@@ -85,9 +85,9 @@ public class ContactServlet extends HttpServlet {
 		contactDAO.insertContact(con, newContact);
 		HttpSession session = request.getSession();
 		String dbname = (String) session.getAttribute("current_dbname");
-//		socketToFall(dbname);
-//		socketToDoor(dbname);
-//		socketToEnv(dbname);
+		socketToFall(dbname);
+		socketToDoor(dbname);
+		socketToEnv(dbname);
 		response.sendRedirect("setting_medicines");
 	}
 	
@@ -110,6 +110,7 @@ public class ContactServlet extends HttpServlet {
 			socket.connect();
 			String argument = "-s 192.168.21.54 -u user -p lomo81818 -d test_" + dbname;
 			socket.emit("wakeup", argument);
+			System.out.println("Connected to Fall Rpi");
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -123,6 +124,7 @@ public class ContactServlet extends HttpServlet {
 			socket.connect();
 			String argument = "-s 192.168.21.54 -u user -p lomo81818 -d test_" + dbname;
 			socket.emit("wakeup", argument);
+			System.out.println("Connected to Door Rpi");
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -132,10 +134,11 @@ public class ContactServlet extends HttpServlet {
 	protected void socketToEnv(String dbname) {
 		try {
 			io.socket.client.Socket socket ;
-			socket = IO.socket("http://192.168.21.36:3000");
+			socket = IO.socket("http://192.168.21.23:3000");
 			socket.connect();
 			String argument = "-s 192.168.21.54 -u user -p lomo81818 -d test_" + dbname;
 			socket.emit("wakeup", argument);
+			System.out.println("Connected to Env Rpi");
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -78,7 +78,7 @@ public class DashboardServlet extends HttpServlet {
 			String dbname = (String) session.getAttribute("current_dbname");
 			String photoPath = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/dataimages/" + dbname + "/";
 			request.setAttribute("realPath", photoPath);
-			doSocket(dbname);
+//			doSocket(dbname);
 			request.getRequestDispatcher("dashboard.jsp").forward(request, response);
 		} else {
 			response.sendRedirect(request.getContextPath());
@@ -145,11 +145,13 @@ public class DashboardServlet extends HttpServlet {
 	protected void doSocket(String dbname) {
 		try {
 			io.socket.client.Socket socket ;
-			socket = IO.socket("http://192.168.21.54:3000");
-//			socket.on(Socket.EVENT_MESSAGE, new Emitter.Listener() {
+			socket = IO.socket("http://localhost:3000");
+//			socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 //			  @Override
 //			  public void call(Object... args) {
 //			    // where socket emit was be
+//				String argument = "-s 192.168.21.54 -u user -p lomo81818 -d test_" + dbname;
+//				socket.emit("wakeup", argument);
 //			    System.out.print("Connected to ubuntu test env");
 //			  }
 //			});

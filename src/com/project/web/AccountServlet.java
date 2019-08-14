@@ -161,7 +161,7 @@ public class AccountServlet extends HttpServlet {
 	private Connection newDBConnection (String dbname, HttpSession session) {
 		String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 		String DB_URL = "jdbc:mysql://localhost:3306/test_" + dbname + "?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=CST&characterEncoding=utf8";
-		String USER = "root";
+		String USER = "user";
 		String PASSWORD = "lomo81818";
 		
 		Connection con = null;
